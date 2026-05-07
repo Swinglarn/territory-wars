@@ -9,233 +9,222 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --parchment:#f4e8c1;--parchment-dark:#e8d5a3;--ink:#2c1810;--ink-light:#5c3820;
-  --gold:#c8960c;--gold-light:#f0b429;--gold-dim:#8a6508;
-  --surface:#1a1008;--surface-2:#241508;--surface-3:#2e1e0a;
-  --border:#5c3820;--border-light:#8a5630;
-  --text:#f4e8c1;--text-muted:#b89860;--text-dim:#7a6040;
-  --red:#c0392b;--blue:#1a5276;--green:#1e8449;
-  --water:#1b3f5e;--land:#6b7c3a;--mtn:#6a5f50;--forest:#3d6b3a;
-  --shadow:rgba(0,0,0,0.7);
+  --bg:#100c04;--surface:#1a1208;--surface2:#221a0e;--surface3:#2c2010;
+  --border:#4a3018;--border2:#6a4828;
+  --text:#f0e4c0;--muted:#a08860;--dim:#6a5840;
+  --gold:#d4a017;--gold2:#f0c040;--gold3:#8a6508;
+  --water:#162840;--plains:#6a7c38;--mtn:#6a5e50;--forest:#3a5e30;
+  --red:#b03028;--blue:#1e4a8a;
 }
+body{background:var(--bg);color:var(--text);font-family:'Crimson Text',Georgia,serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
 
-body{background:var(--surface);color:var(--text);font-family:'Crimson Text',Georgia,serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+/* ── LOBBY ── */
+#lobby{display:flex;align-items:center;justify-content:center;height:100vh;background:radial-gradient(ellipse at 50% 35%,#2a1a06 0%,#080604 100%);}
+.lcard{background:linear-gradient(160deg,#201408,#140e04);border:1px solid var(--border2);border-radius:4px;padding:48px 52px;width:440px;max-width:95vw;box-shadow:0 0 80px rgba(212,160,23,0.12),inset 0 1px 0 rgba(255,220,80,0.08);position:relative;}
+.lcard::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,160,23,0.18);border-radius:2px;pointer-events:none;}
+.lcard .crest{text-align:center;font-size:40px;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(240,192,64,0.5));}
+.lcard h1{font-family:'Cinzel',serif;font-size:30px;font-weight:700;color:var(--gold2);text-align:center;letter-spacing:.06em;text-shadow:0 0 30px rgba(240,192,64,0.35);margin-bottom:4px;}
+.lcard .sub{color:var(--muted);font-size:14px;text-align:center;font-style:italic;margin-bottom:36px;}
+.field{margin-bottom:18px;}
+.field label{display:block;margin-bottom:6px;font-size:10px;color:var(--gold3);text-transform:uppercase;letter-spacing:.14em;font-family:'Cinzel',serif;}
+.field input{width:100%;padding:11px 16px;background:rgba(0,0,0,0.45);border:1px solid var(--border);border-radius:2px;color:var(--text);font-size:16px;font-family:'Crimson Text',serif;outline:none;transition:border-color .2s;}
+.field input:focus{border-color:var(--gold3);}
+.field input::placeholder{color:var(--dim);}
+.btn{display:block;width:100%;padding:13px;background:linear-gradient(180deg,#8a6008,#5a4006);color:var(--text);border:1px solid var(--gold3);border-radius:2px;font-size:13px;font-weight:600;font-family:'Cinzel',serif;letter-spacing:.08em;cursor:pointer;margin-top:6px;transition:all .15s;text-transform:uppercase;}
+.btn:hover{background:linear-gradient(180deg,#c8a020,#8a6008);box-shadow:0 0 24px rgba(200,160,32,0.3);}
+#lerr{color:#d04030;font-size:13px;margin-top:10px;text-align:center;min-height:18px;}
 
-/* ── LOBBY ─────────────────────────────────────────────────────── */
-#lobby{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;background:radial-gradient(ellipse at 50% 40%,#2e1e0a 0%,#0e0a04 100%);}
-.lobby-card{
-  background:linear-gradient(160deg,#241a08 0%,#1a1206 100%);
-  border:1px solid var(--border-light);border-radius:4px;padding:48px 52px;width:440px;max-width:95vw;
-  box-shadow:0 0 60px rgba(200,150,12,0.15),inset 0 1px 0 rgba(255,220,100,0.1);
-  position:relative;
-}
-.lobby-card::before{content:'';position:absolute;inset:6px;border:1px solid rgba(200,150,12,0.2);border-radius:2px;pointer-events:none;}
-.lobby-card h1{font-family:'Cinzel',serif;font-size:32px;font-weight:700;letter-spacing:.05em;color:var(--gold-light);margin-bottom:4px;text-align:center;text-shadow:0 0 30px rgba(240,180,41,0.4);}
-.lobby-card .crest{text-align:center;font-size:36px;margin-bottom:12px;filter:drop-shadow(0 0 10px rgba(240,180,41,0.5));}
-.lobby-card .subtitle{color:var(--text-muted);margin-bottom:36px;font-size:15px;text-align:center;font-style:italic;}
-.field{margin-bottom:20px;}
-.field label{display:block;margin-bottom:6px;font-size:11px;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.12em;font-family:'Cinzel',serif;}
-.field input{
-  width:100%;padding:12px 16px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:2px;
-  color:var(--text);font-size:16px;font-family:'Crimson Text',serif;outline:none;
-  transition:border-color .2s;
-}
-.field input:focus{border-color:var(--gold-dim);}
-.field input::placeholder{color:var(--text-dim);}
-.btn{
-  display:block;width:100%;padding:14px;
-  background:linear-gradient(180deg,#8a6508 0%,#5c4006 100%);
-  color:var(--parchment);border:1px solid var(--gold-dim);border-radius:2px;
-  font-size:14px;font-weight:600;font-family:'Cinzel',serif;letter-spacing:.08em;
-  cursor:pointer;margin-top:8px;transition:all .15s;text-transform:uppercase;
-}
-.btn:hover{background:linear-gradient(180deg,#c8960c 0%,#8a6508 100%);box-shadow:0 0 20px rgba(200,150,12,0.3);}
-#lobby-error{color:#e74c3c;font-size:13px;margin-top:12px;text-align:center;min-height:18px;}
+/* ── WAITING ── */
+#waiting{display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:radial-gradient(ellipse at 50% 35%,#2a1a06 0%,#080604 100%);}
+.wcard{background:linear-gradient(160deg,#201408,#140e04);border:1px solid var(--border2);border-radius:4px;padding:36px 44px;width:440px;max-width:95vw;position:relative;}
+.wcard::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,160,23,0.18);border-radius:2px;pointer-events:none;}
+.wcard h2{font-family:'Cinzel',serif;font-size:20px;color:var(--gold2);margin-bottom:6px;}
+.wcode{color:var(--muted);font-size:14px;margin-bottom:24px;font-style:italic;}
+.wcode strong{color:var(--gold2);font-style:normal;letter-spacing:.1em;}
+#wlist{list-style:none;margin-bottom:24px;}
+#wlist li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(74,48,24,0.4);font-size:15px;}
+#wlist li:last-child{border-bottom:none;}
+.pcrest{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:2px solid rgba(255,255,255,0.25);}
+.youbadge{font-size:10px;color:var(--gold3);background:rgba(212,160,23,0.12);border:1px solid var(--gold3);padding:2px 7px;border-radius:2px;font-family:'Cinzel',serif;}
+.hint{color:var(--dim);font-size:13px;text-align:center;font-style:italic;}
 
-/* ── WAITING ────────────────────────────────────────────────────── */
-#waiting{display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:20px;background:radial-gradient(ellipse at 50% 40%,#2e1e0a 0%,#0e0a04 100%);}
-.waiting-card{background:linear-gradient(160deg,#241a08,#1a1206);border:1px solid var(--border-light);border-radius:4px;padding:36px 44px;width:440px;max-width:95vw;position:relative;}
-.waiting-card::before{content:'';position:absolute;inset:6px;border:1px solid rgba(200,150,12,0.2);border-radius:2px;pointer-events:none;}
-.waiting-card h2{font-family:'Cinzel',serif;font-size:22px;color:var(--gold-light);margin-bottom:6px;}
-.waiting-card .room-code{color:var(--text-muted);font-size:14px;margin-bottom:24px;font-style:italic;}
-.waiting-card .room-code strong{color:var(--gold-light);font-size:16px;letter-spacing:.12em;font-style:normal;}
-#waiting-players{list-style:none;margin-bottom:24px;}
-#waiting-players li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(92,56,32,0.4);font-size:15px;}
-#waiting-players li:last-child{border-bottom:none;}
-.player-crest{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
-.you-badge{font-size:10px;color:var(--gold-dim);background:rgba(200,150,12,0.15);border:1px solid var(--gold-dim);padding:2px 8px;border-radius:2px;font-family:'Cinzel',serif;letter-spacing:.05em;}
-.hint{color:var(--text-dim);font-size:13px;text-align:center;font-style:italic;}
-
-/* ── GAME LAYOUT ─────────────────────────────────────────────────── */
+/* ── GAME ── */
 #game{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+#topbar{background:linear-gradient(180deg,#2a1a08,#180e04);border-bottom:2px solid var(--border);padding:0 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;height:50px;box-shadow:0 2px 14px rgba(0,0,0,0.6);}
+.gtitle{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold2);flex-shrink:0;letter-spacing:.06em;}
+.divider{width:1px;height:30px;background:var(--border);flex-shrink:0;}
+#pstats{display:flex;gap:5px;flex-wrap:wrap;flex:1;}
+.chip{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:2px;border:1px solid rgba(74,48,24,0.5);font-size:12px;white-space:nowrap;background:rgba(0,0,0,0.2);}
+.chip.me{border-color:rgba(212,160,23,0.45);background:rgba(212,160,23,0.07);}
+.chip.dead{opacity:.3;text-decoration:line-through;}
+.ccolor{width:9px;height:9px;border-radius:2px;flex-shrink:0;border:1px solid rgba(255,255,255,0.25);}
+.cally{font-size:9px;color:#4a9a4a;margin-left:2px;}
+#goldbar{display:flex;align-items:center;gap:6px;padding:4px 14px;background:linear-gradient(180deg,rgba(212,160,23,0.18),rgba(212,160,23,0.05));border:1px solid var(--gold3);border-radius:2px;color:var(--gold2);font-family:'Cinzel',serif;font-size:14px;font-weight:600;flex-shrink:0;}
+#timer{font-size:12px;color:var(--muted);flex-shrink:0;font-family:'Cinzel',serif;}
+.tbtn{padding:5px 12px;background:rgba(0,0,0,0.3);border:1px solid var(--border2);border-radius:2px;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.04em;transition:all .15s;flex-shrink:0;}
+.tbtn:hover{border-color:var(--gold3);color:var(--gold2);}
 
-/* Top bar */
-#topbar{
-  background:linear-gradient(180deg,#2e1e0a 0%,#1a1008 100%);
-  border-bottom:2px solid var(--border);
-  padding:0 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;height:52px;
-  box-shadow:0 2px 12px rgba(0,0,0,0.5);
-}
-.game-title{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold-light);flex-shrink:0;letter-spacing:.06em;text-shadow:0 0 20px rgba(240,180,41,0.3);}
-.divider{width:1px;height:32px;background:var(--border);flex-shrink:0;}
-#player-stats{display:flex;gap:6px;flex-wrap:wrap;flex:1;}
-.stat-chip{
-  display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:2px;
-  border:1px solid rgba(92,56,32,0.5);font-size:12px;white-space:nowrap;
-  background:rgba(0,0,0,0.2);font-family:'Crimson Text',serif;
-}
-.stat-chip.me{border-color:rgba(200,150,12,0.5);background:rgba(200,150,12,0.08);}
-.stat-chip.dead{opacity:.3;text-decoration:line-through;}
-.chip-color{width:10px;height:10px;border-radius:2px;flex-shrink:0;border:1px solid rgba(255,255,255,0.3);}
-#my-gold-display{
-  display:flex;align-items:center;gap:6px;padding:4px 14px;
-  background:linear-gradient(180deg,rgba(200,150,12,0.2) 0%,rgba(200,150,12,0.05) 100%);
-  border:1px solid var(--gold-dim);border-radius:2px;color:var(--gold-light);
-  font-family:'Cinzel',serif;font-size:14px;font-weight:600;flex-shrink:0;
-}
-.gold-icon{font-size:16px;}
-#timer{font-size:13px;color:var(--text-muted);flex-shrink:0;font-family:'Cinzel',serif;}
-
-/* Main area */
 #main{display:flex;flex:1;overflow:hidden;}
+#cwrap{flex:1;overflow:auto;background:#0a0e14;position:relative;cursor:crosshair;}
+#gc{display:block;image-rendering:pixelated;}
 
-/* Map */
-#canvas-wrap{flex:1;overflow:auto;background:#0a0d12;position:relative;cursor:crosshair;}
-#gameCanvas{display:block;image-rendering:pixelated;}
-
-/* Context menu */
-#ctx-menu{
-  position:fixed;z-index:500;display:none;
-  background:linear-gradient(160deg,#2e1e0a,#1a1206);
-  border:1px solid var(--border-light);border-radius:3px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.7);min-width:180px;overflow:hidden;
-}
-.ctx-title{padding:8px 14px;font-family:'Cinzel',serif;font-size:11px;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);}
-.ctx-item{padding:10px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;color:var(--text);}
-.ctx-item:hover{background:rgba(200,150,12,0.12);}
-.ctx-item.disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
-.ctx-cost{margin-left:auto;font-size:12px;color:var(--gold-dim);}
-
-/* Tooltip */
-#tooltip{
-  position:fixed;background:linear-gradient(160deg,#2e1e0a,#1a1206);
-  border:1px solid var(--border-light);border-radius:3px;
-  padding:8px 12px;font-size:13px;pointer-events:none;display:none;z-index:100;
-  white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.6);max-width:220px;white-space:normal;
-}
-.tt-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:4px;}
-.tt-row{color:var(--text-muted);font-size:12px;line-height:1.6;}
-
-/* Sidebar */
-#sidebar{
-  width:240px;flex-shrink:0;
-  background:linear-gradient(180deg,#1e1508 0%,#141008 100%);
-  border-left:2px solid var(--border);display:flex;flex-direction:column;overflow:hidden;
-}
-.sidebar-section{border-bottom:1px solid rgba(92,56,32,0.4);padding:12px 14px;}
-.sidebar-section h3{font-family:'Cinzel',serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:10px;}
-#controls{font-size:12px;color:var(--text-muted);line-height:2;}
-#controls kbd{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:2px;padding:1px 5px;font-family:monospace;font-size:10px;color:var(--text-muted);}
+/* ── SIDEBAR ── */
+#sidebar{width:235px;flex-shrink:0;background:linear-gradient(180deg,#1a1208,#100c04);border-left:2px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.ssec{border-bottom:1px solid rgba(74,48,24,0.35);padding:11px 13px;}
+.ssec h3{font-family:'Cinzel',serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold3);margin-bottom:9px;}
+#controls{font-size:12px;color:var(--muted);line-height:2;}
+#controls kbd{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:2px;padding:1px 5px;font-family:monospace;font-size:10px;}
 
 /* Economy panel */
-#economy-panel{padding:12px 14px;border-bottom:1px solid rgba(92,56,32,0.4);}
-#economy-panel h3{font-family:'Cinzel',serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:10px;}
-.eco-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:13px;}
-.eco-label{color:var(--text-muted);}
-.eco-val{color:var(--gold-light);font-weight:600;}
-.build-btns{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
-.build-btn{
-  padding:8px 10px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:2px;
-  color:var(--text-muted);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;
-  font-family:'Crimson Text',serif;transition:all .15s;
-}
-.build-btn:hover{border-color:var(--gold-dim);color:var(--text);background:rgba(200,150,12,0.08);}
-.build-btn-icon{font-size:16px;}
-.build-btn-cost{margin-left:auto;color:var(--gold-dim);font-size:11px;}
+#ecpanel{padding:11px 13px;border-bottom:1px solid rgba(74,48,24,0.35);display:none;}
+#ecpanel h3{font-family:'Cinzel',serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold3);margin-bottom:9px;}
+.erow{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:13px;}
+.elab{color:var(--muted);}
+.eval{color:var(--gold2);font-weight:600;}
+
+/* Alliance panel */
+#allypanel{padding:9px 13px;border-bottom:1px solid rgba(74,48,24,0.35);display:none;}
+#allypanel h3{font-family:'Cinzel',serif;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold3);margin-bottom:8px;}
+#allylist{font-size:12px;}
+.allyrow{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(74,48,24,0.25);}
+.allyrow:last-child{border-bottom:none;}
+.aldot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.albrkbtn{margin-left:auto;font-size:10px;color:var(--dim);cursor:pointer;padding:1px 5px;border:1px solid var(--border);border-radius:2px;}
+.albrkbtn:hover{color:#c04030;border-color:#804030;}
 
 /* Chat */
-#chat-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-#chat-log{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:4px;font-size:13px;line-height:1.5;}
-#chat-log::-webkit-scrollbar{width:4px;}
-#chat-log::-webkit-scrollbar-track{background:transparent;}
-#chat-log::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.chat-msg .chat-name{font-weight:600;}
-.chat-msg .chat-text{color:var(--text-muted);}
-.chat-system{font-size:11px;color:var(--text-dim);font-style:italic;}
-#chat-input-row{padding:10px;border-top:1px solid rgba(92,56,32,0.4);display:flex;gap:6px;}
-#chat-input{flex:1;padding:7px 10px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:2px;color:var(--text);font-size:13px;font-family:'Crimson Text',serif;outline:none;}
-#chat-input:focus{border-color:var(--gold-dim);}
-#chat-send{padding:7px 12px;background:rgba(200,150,12,0.2);border:1px solid var(--gold-dim);border-radius:2px;color:var(--gold-light);font-size:13px;cursor:pointer;}
+#chatwrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+#chatlog{flex:1;overflow-y:auto;padding:9px 13px;display:flex;flex-direction:column;gap:3px;font-size:12px;line-height:1.5;}
+#chatlog::-webkit-scrollbar{width:3px;}
+#chatlog::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.cmsg .cn{font-weight:600;}.cmsg .ct{color:var(--muted);}
+.csys{font-size:11px;color:var(--dim);font-style:italic;}
+#chatrow{padding:9px;border-top:1px solid rgba(74,48,24,0.35);display:flex;gap:5px;}
+#chatinp{flex:1;padding:6px 9px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:2px;color:var(--text);font-size:12px;font-family:'Crimson Text',serif;outline:none;}
+#chatinp:focus{border-color:var(--gold3);}
+#chatsend{padding:6px 11px;background:rgba(212,160,23,0.18);border:1px solid var(--gold3);border-radius:2px;color:var(--gold2);font-size:12px;cursor:pointer;}
 
-/* Overlay */
-#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(4px);}
+/* ── TECH PANEL ── */
+#techpanel{position:fixed;inset:0;z-index:400;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);}
+#techpanel.open{display:flex;}
+#techinner{background:linear-gradient(160deg,#241808,#160e04);border:1px solid var(--border2);border-radius:4px 4px 0 0;padding:28px 32px 36px;width:min(900px,98vw);max-height:72vh;overflow-y:auto;position:relative;}
+#techinner::before{content:'';position:absolute;inset:8px 8px 0;border:1px solid rgba(212,160,23,0.15);border-bottom:none;border-radius:2px 2px 0 0;pointer-events:none;}
+.techhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.techhead h2{font-family:'Cinzel',serif;font-size:22px;color:var(--gold2);letter-spacing:.05em;}
+.techclose{background:none;border:1px solid var(--border2);border-radius:2px;color:var(--muted);padding:4px 10px;cursor:pointer;font-size:13px;font-family:'Cinzel',serif;}
+.techclose:hover{color:var(--text);border-color:var(--gold3);}
+.branches{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.branch h3{font-family:'Cinzel',serif;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.techs{display:flex;flex-direction:column;gap:10px;}
+.tcard{border:1px solid var(--border);border-radius:3px;padding:14px;background:rgba(0,0,0,0.3);position:relative;transition:all .18s;}
+.tcard.available{cursor:pointer;border-color:var(--border2);}
+.tcard.available:hover{border-color:var(--gold3);background:rgba(212,160,23,0.06);}
+.tcard.researched{border-color:rgba(74,160,74,0.5);background:rgba(74,160,74,0.05);}
+.tcard.locked{opacity:.45;}
+.tcard .tico{font-size:20px;margin-bottom:6px;}
+.tcard .tname{font-family:'Cinzel',serif;font-size:13px;color:var(--text);margin-bottom:4px;font-weight:600;}
+.tcard .tdesc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:8px;}
+.tcard .tcost{font-size:11px;color:var(--gold3);font-family:'Cinzel',serif;}
+.tcard .tstat{position:absolute;top:10px;right:10px;font-size:11px;}
+.tcard.researched .tstat::after{content:'✓';color:#4aaa4a;}
+.tcard.locked .tstat::after{content:'🔒';}
+
+/* ── CONTEXT MENU ── */
+#ctxmenu{position:fixed;z-index:500;display:none;background:linear-gradient(160deg,#281a08,#160e04);border:1px solid var(--border2);border-radius:3px;box-shadow:0 8px 32px rgba(0,0,0,0.8);min-width:180px;overflow:hidden;}
+.ctxtitle{padding:8px 13px;font-family:'Cinzel',serif;font-size:10px;color:var(--gold3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);}
+.ctxitem{padding:10px 13px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--text);transition:background .1s;}
+.ctxitem:hover{background:rgba(212,160,23,0.1);}
+.ctxitem.disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
+.ctxcost{margin-left:auto;font-size:11px;color:var(--gold3);}
+
+/* ── EVENT MODAL ── */
+#evtmodal{position:fixed;z-index:600;bottom:20px;right:20px;width:340px;display:none;animation:evtin .3s ease;}
+#evtmodal.show{display:block;}
+@keyframes evtin{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.evtcard{background:linear-gradient(160deg,#281a06,#180e02);border:1px solid var(--border2);border-radius:4px;padding:20px;box-shadow:0 8px 40px rgba(0,0,0,0.8);}
+.evtcard::before{content:'';position:absolute;inset:6px;border:1px solid rgba(212,160,23,0.15);border-radius:2px;pointer-events:none;}
+.evtico{font-size:28px;margin-bottom:8px;}
+.evttitle{font-family:'Cinzel',serif;font-size:16px;color:var(--gold2);margin-bottom:8px;font-weight:700;}
+.evtflavour{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:14px;line-height:1.5;}
+.evtchoices{display:flex;flex-direction:column;gap:7px;}
+.evtbtn{padding:10px 13px;background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:2px;color:var(--text);font-size:13px;cursor:pointer;font-family:'Crimson Text',serif;transition:all .15s;text-align:left;}
+.evtbtn:hover{border-color:var(--gold3);background:rgba(212,160,23,0.08);}
+.evteff{display:block;font-size:11px;color:var(--dim);margin-top:3px;}
+
+/* ── ALLIANCE OFFER ── */
+#alloffer{position:fixed;z-index:600;top:70px;right:20px;width:300px;display:none;animation:evtin .3s ease;}
+#alloffer.show{display:block;}
+.allcard{background:linear-gradient(160deg,#1a2810,#101808);border:1px solid rgba(74,160,74,0.5);border-radius:3px;padding:16px;box-shadow:0 6px 30px rgba(0,0,0,0.7);}
+.allcard h4{font-family:'Cinzel',serif;font-size:14px;color:#6aaa6a;margin-bottom:6px;}
+.allcard p{font-size:13px;color:var(--muted);margin-bottom:12px;}
+.allbtns{display:flex;gap:8px;}
+.allaccept{flex:1;padding:8px;background:rgba(74,160,74,0.2);border:1px solid rgba(74,160,74,0.5);border-radius:2px;color:#8aca8a;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;}
+.alldecline{flex:1;padding:8px;background:rgba(0,0,0,0.3);border:1px solid var(--border2);border-radius:2px;color:var(--dim);font-family:'Cinzel',serif;font-size:12px;cursor:pointer;}
+
+/* ── TOOLTIP ── */
+#tip{position:fixed;background:linear-gradient(160deg,#281a08,#160e04);border:1px solid var(--border2);border-radius:3px;padding:8px 12px;font-size:12px;pointer-events:none;display:none;z-index:200;max-width:200px;box-shadow:0 4px 16px rgba(0,0,0,0.7);}
+.tttitle{font-family:'Cinzel',serif;font-size:11px;color:var(--gold2);margin-bottom:4px;}
+.ttrow{color:var(--muted);line-height:1.7;}
+
+/* ── OVERLAY ── */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;z-index:700;backdrop-filter:blur(5px);}
 #overlay.show{display:flex;}
-.overlay-card{
-  background:linear-gradient(160deg,#2e1e0a,#1a1206);
-  border:1px solid var(--border-light);border-radius:4px;padding:48px 60px;text-align:center;max-width:420px;
-  box-shadow:0 0 80px rgba(200,150,12,0.2);position:relative;
-}
-.overlay-card::before{content:'';position:absolute;inset:8px;border:1px solid rgba(200,150,12,0.2);border-radius:2px;pointer-events:none;}
-.overlay-card .overlay-icon{font-size:48px;margin-bottom:12px;}
-.overlay-card h2{font-family:'Cinzel',serif;font-size:30px;color:var(--gold-light);margin-bottom:8px;text-shadow:0 0 30px rgba(240,180,41,0.4);}
-.overlay-card .win-name{font-size:22px;font-family:'Cinzel',serif;color:var(--text);margin:8px 0 20px;font-weight:600;}
-.overlay-card p{color:var(--text-muted);margin-bottom:28px;font-style:italic;}
+.ocard{background:linear-gradient(160deg,#281a08,#160e04);border:1px solid var(--border2);border-radius:4px;padding:48px 60px;text-align:center;max-width:400px;box-shadow:0 0 100px rgba(212,160,23,0.18);}
+.ocard .oico{font-size:52px;margin-bottom:10px;}
+.ocard h2{font-family:'Cinzel',serif;font-size:28px;color:var(--gold2);margin-bottom:8px;text-shadow:0 0 30px rgba(240,192,64,0.4);}
+.ocard .oname{font-size:20px;font-family:'Cinzel',serif;color:var(--text);margin:8px 0 18px;font-weight:600;}
+.ocard p{color:var(--muted);margin-bottom:26px;font-style:italic;}
 
-/* Toast */
-#toast-area{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column-reverse;gap:8px;z-index:300;pointer-events:none;}
-.toast{
-  background:linear-gradient(160deg,#2e1e0a,#1a1206);border:1px solid var(--border-light);
-  border-radius:3px;padding:10px 18px;font-size:14px;animation:slide-up .2s ease;
-  white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.6);font-family:'Crimson Text',serif;
-}
+/* ── TOASTS ── */
+#toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column-reverse;gap:7px;z-index:500;pointer-events:none;}
+.toast{background:linear-gradient(160deg,#281a08,#160e04);border:1px solid var(--border2);border-radius:3px;padding:9px 18px;font-size:14px;animation:slide-up .2s ease;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.7);}
 @keyframes slide-up{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* Selected tile pulse */
-#selected-indicator{display:none;position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(200,150,12,0.15);border:1px solid var(--gold-dim);border-radius:3px;padding:6px 16px;font-size:13px;color:var(--gold-light);font-family:'Cinzel',serif;pointer-events:none;z-index:50;}
+/* ── SEL IND ── */
+#selind{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(212,160,23,0.12);border:1px solid var(--gold3);border-radius:3px;padding:6px 16px;font-size:12px;color:var(--gold2);font-family:'Cinzel',serif;pointer-events:none;z-index:100;display:none;}
 </style>
 </head>
 <body>
 
 <!-- LOBBY -->
 <div id="lobby">
-  <div class="lobby-card">
+  <div class="lcard">
     <div class="crest">⚔️</div>
     <h1>Territory Wars</h1>
-    <p class="subtitle">Conquer the realm. Build your empire.</p>
-    <div class="field"><label>Your Name</label><input id="inp-name" type="text" maxlength="20" placeholder="Enter your name..." autocomplete="off"></div>
-    <div class="field"><label>Room Code</label><input id="inp-room" type="text" maxlength="12" placeholder="e.g. ALPHA" autocomplete="off" style="text-transform:uppercase"></div>
+    <p class="sub">Build your empire. Research. Trade. Conquer.</p>
+    <div class="field"><label>Your Name</label><input id="iname" type="text" maxlength="20" placeholder="Enter your name..." autocomplete="off"></div>
+    <div class="field"><label>Room Code</label><input id="iroom" type="text" maxlength="12" placeholder="e.g. ALPHA" autocomplete="off" style="text-transform:uppercase"></div>
     <button class="btn" onclick="joinRoom()">Enter the Realm</button>
-    <div id="lobby-error"></div>
+    <div id="lerr"></div>
   </div>
 </div>
 
 <!-- WAITING -->
 <div id="waiting">
-  <div class="waiting-card">
+  <div class="wcard">
     <h2>Assembling Forces</h2>
-    <p class="room-code">Room: <strong id="room-code-display"></strong> — share to invite lords</p>
-    <ul id="waiting-players"></ul>
-    <button class="btn" id="start-btn" onclick="startGame()" style="display:none">⚔ Begin the Campaign</button>
-    <p class="hint" id="waiting-hint">Awaiting the host to begin...</p>
+    <p class="wcode">Room: <strong id="wcode"></strong> — share to invite</p>
+    <ul id="wlist"></ul>
+    <button class="btn" id="startbtn" onclick="startGame()" style="display:none">⚔ Begin Campaign</button>
+    <p class="hint" id="whint">Awaiting the host...</p>
   </div>
 </div>
 
 <!-- GAME -->
 <div id="game">
   <div id="topbar">
-    <span class="game-title">⚔ Territory Wars</span>
+    <span class="gtitle">⚔ Territory Wars</span>
     <div class="divider"></div>
-    <div id="player-stats"></div>
+    <div id="pstats"></div>
     <div class="divider"></div>
-    <div id="my-gold-display"><span class="gold-icon">🪙</span><span id="gold-val">0</span></div>
+    <div id="goldbar">🪙 <span id="goldval">0</span></div>
+    <button class="tbtn" onclick="toggleTech()">📜 Research</button>
     <span id="timer"></span>
   </div>
   <div id="main">
-    <div id="canvas-wrap">
-      <canvas id="gameCanvas"></canvas>
-    </div>
+    <div id="cwrap"><canvas id="gc"></canvas></div>
     <div id="sidebar">
-      <div class="sidebar-section">
+      <div class="ssec">
         <h3>Commands</h3>
         <div id="controls">
           <kbd>Click</kbd> own tile → select<br>
@@ -244,651 +233,706 @@ body{background:var(--surface);color:var(--text);font-family:'Crimson Text',Geor
           <kbd>Scroll</kbd> zoom · <kbd>Middle</kbd> pan
         </div>
       </div>
-      <div id="economy-panel" style="display:none">
+      <div id="ecpanel">
         <h3>Your Realm</h3>
-        <div class="eco-row"><span class="eco-label">Territory</span><span class="eco-val" id="my-tiles">0</span></div>
-        <div class="eco-row"><span class="eco-label">Troops</span><span class="eco-val" id="my-troops">0</span></div>
-        <div class="eco-row"><span class="eco-label">Cities</span><span class="eco-val" id="my-cities">0</span></div>
-        <div class="eco-row"><span class="eco-label">Treasury</span><span class="eco-val" id="my-gold">0 🪙</span></div>
-        <div class="build-btns">
-          <div class="build-btn" onclick="setBuildMode('city')" id="btn-city">
-            <span class="build-btn-icon">🏰</span>
-            <span>Build City</span>
-            <span class="build-btn-cost" id="city-cost">200 🪙</span>
-          </div>
-          <div class="build-btn" onclick="setBuildMode('fort')" id="btn-fort">
-            <span class="build-btn-icon">🛡</span>
-            <span>Build Fort</span>
-            <span class="build-btn-cost" id="fort-cost">80 🪙</span>
-          </div>
-        </div>
+        <div class="erow"><span class="elab">Territory</span><span class="eval" id="etiles">0</span></div>
+        <div class="erow"><span class="elab">Population</span><span class="eval" id="epop">0</span></div>
+        <div class="erow"><span class="elab">Troops</span><span class="eval" id="etroops">0</span></div>
+        <div class="erow"><span class="elab">Cities</span><span class="eval" id="ecities">0</span></div>
+        <div class="erow"><span class="elab">Treasury</span><span class="eval" id="egold">0 🪙</span></div>
+        <div class="erow"><span class="elab">Income / tick</span><span class="eval" id="eincome">~0 🪙</span></div>
       </div>
-      <div id="chat-wrap">
-        <div class="sidebar-section" style="border-bottom:none;"><h3>Dispatches</h3></div>
-        <div id="chat-log"></div>
-        <div id="chat-input-row">
-          <input id="chat-input" type="text" maxlength="200" placeholder="Send dispatch..." autocomplete="off">
-          <button id="chat-send" onclick="sendChat()">↑</button>
+      <div id="allypanel">
+        <h3>Alliances</h3>
+        <div id="allylist"><span style="color:var(--dim);font-size:12px;font-style:italic;">No allies yet</span></div>
+      </div>
+      <div id="chatwrap">
+        <div class="ssec" style="border-bottom:none;"><h3>Dispatches</h3></div>
+        <div id="chatlog"></div>
+        <div id="chatrow">
+          <input id="chatinp" type="text" maxlength="200" placeholder="Send dispatch..." autocomplete="off">
+          <button id="chatsend" onclick="sendChat()">↑</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Context menu -->
-<div id="ctx-menu">
-  <div class="ctx-title">Actions</div>
-  <div class="ctx-item" id="ctx-city" onclick="ctxBuild('city')">🏰 Build City <span class="ctx-cost">200 🪙</span></div>
-  <div class="ctx-item" id="ctx-fort" onclick="ctxBuild('fort')">🛡 Build Fort <span class="ctx-cost">80 🪙</span></div>
-  <div class="ctx-item" onclick="hideCtx()">✕ Cancel</div>
+<!-- TECH PANEL -->
+<div id="techpanel">
+  <div id="techinner">
+    <div class="techhead">
+      <h2>📜 Research & Technologies</h2>
+      <button class="techclose" onclick="toggleTech()">Close</button>
+    </div>
+    <div class="branches">
+      <div id="branch-military"><h3>⚔ Military</h3><div class="techs" id="techs-military"></div></div>
+      <div id="branch-economic"><h3>🪙 Economic</h3><div class="techs" id="techs-economic"></div></div>
+      <div id="branch-diplomatic"><h3>🤝 Diplomatic</h3><div class="techs" id="techs-diplomatic"></div></div>
+    </div>
+  </div>
 </div>
 
-<div id="tooltip"></div>
-<div id="selected-indicator" id="sel-ind">March from selected → click target</div>
+<!-- CONTEXT MENU -->
+<div id="ctxmenu">
+  <div class="ctxtitle">Actions</div>
+  <div class="ctxitem" id="ctx-city" onclick="ctxBuild('city')">🏰 Build City<span class="ctxcost">200 🪙</span></div>
+  <div class="ctxitem" id="ctx-fort" onclick="ctxBuild('fort')">🛡 Build Fort<span class="ctxcost">80 🪙</span></div>
+  <div class="ctxitem" id="ctx-ally" onclick="ctxAlly()" style="display:none">🤝 Propose Alliance</div>
+  <div class="ctxitem" onclick="hideCtx()">✕ Cancel</div>
+</div>
+
+<!-- EVENT MODAL -->
+<div id="evtmodal">
+  <div class="evtcard" style="position:relative;">
+    <div class="evtico" id="evtico"></div>
+    <div class="evttitle" id="evttitle"></div>
+    <div class="evtflavour" id="evtflavour"></div>
+    <div class="evtchoices" id="evtchoices"></div>
+  </div>
+</div>
+
+<!-- ALLIANCE OFFER -->
+<div id="alloffer">
+  <div class="allcard">
+    <h4>🤝 Alliance Offer</h4>
+    <p id="alloffertxt"></p>
+    <div class="allbtns">
+      <button class="allaccept" onclick="respondAlly(true)">Accept</button>
+      <button class="alldecline" onclick="respondAlly(false)">Decline</button>
+    </div>
+  </div>
+</div>
+
+<div id="tip"></div>
+<div id="selind">Select a target tile to march your troops</div>
+
 <div id="overlay">
-  <div class="overlay-card">
-    <div class="overlay-icon" id="overlay-icon"></div>
-    <h2 id="overlay-title"></h2>
-    <div class="win-name" id="overlay-name"></div>
-    <p id="overlay-sub"></p>
+  <div class="ocard">
+    <div class="oico" id="oico"></div>
+    <h2 id="otitle"></h2>
+    <div class="oname" id="oname"></div>
+    <p id="osub"></p>
     <button class="btn" onclick="location.reload()">Play Again</button>
   </div>
 </div>
-<div id="toast-area"></div>
+<div id="toasts"></div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────────────────────────
-const TS = 20; // tile size in pixels
-let MAP_W = 80, MAP_H = 50;
-let CFG = {};
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const TS = 20;
+let MAP_W=80, MAP_H=50, CFG={}, TECHDEFS={};
 
 // ── STATE ──────────────────────────────────────────────────────────────────
-let socket, myId, myRoom, isHost = false;
-let tiles = [], players = {}, playerOrder = [], marches = [], stats = {};
-let selected = null, hovered = null;
-let scale = 1, panX = 0, panY = 0, isPanning = false, panSX = 0, panSY = 0;
-let startTime = null;
-let buildMode = null; // 'city' | 'fort' | null
-let ctxTile = null;  // tile for context menu
+let socket, myId, isHost=false;
+let tiles=[], players={}, playerOrder=[], marches=[], stats={}, tradeRoutes=[];
+let selected=null, hovered=null;
+let scale=1, panX=0, panY=0, isPanning=false, panSX=0, panSY=0;
+let startTime=null;
+let ctxTile=null, allyOfferFrom=null;
+let myTechs=[], myAllies=[];
 
-// ── TERRAIN ────────────────────────────────────────────────────────────────
-const TERRAIN_BASE = ['#1b3f5e','#7a8c4a','#6a5f50','#3d5e2a']; // water,plains,mountain,forest
-const TERRAIN_NAMES = ['Water','Plains','Mountains','Forest'];
+// Terrain
+const TBASE=['#162840','#72854a','#6a5e50','#3a5830'];
+const TNAME=['Water','Plains','Mountains','Forest'];
 
-function getTileColor(tile) {
-  if (tile.terrain === 0) return '#1b3f5e';
-  const base = TERRAIN_BASE[tile.terrain] || TERRAIN_BASE[1];
-  if (tile.ownerIdx === -1) return base;
-  const p = players[playerOrder[tile.ownerIdx]];
-  if (!p) return base;
-  return blendHex(p.color, base, 0.38);
+function tileColor(tile){
+  if(tile.terrain===0)return'#162840';
+  const base=TBASE[tile.terrain]||TBASE[1];
+  if(tile.ownerIdx===-1)return base;
+  const p=players[playerOrder[tile.ownerIdx]];
+  return p?blendHex(p.color,base,.38):base;
 }
 
 // ── SOCKET ─────────────────────────────────────────────────────────────────
-function initSocket() {
-  socket = io();
-
-  socket.on('joined', ({ playerId, player, players: pl, playerOrder: po, cfg }) => {
-    myId = playerId; players = pl; playerOrder = po; CFG = cfg || {};
-    isHost = po[0] === myId;
-    updateWaiting(); showScreen('waiting');
+function initSocket(){
+  socket=io();
+  socket.on('joined',({playerId,player,players:pl,playerOrder:po,cfg,techDefs})=>{
+    myId=playerId;players=pl;playerOrder=po;CFG=cfg||{};TECHDEFS=techDefs||{};
+    isHost=po[0]===myId;updateWait();showScreen('waiting');
   });
-
-  socket.on('lobby_update', ({ players: pl, playerOrder: po }) => {
-    players = pl; playerOrder = po; isHost = po[0] === myId; updateWaiting();
+  socket.on('lobby_update',({players:pl,playerOrder:po})=>{
+    players=pl;playerOrder=po;isHost=po[0]===myId;updateWait();
   });
-
-  socket.on('game_start', ({ tiles: t, players: pl, playerOrder: po, mapW, mapH, cfg }) => {
-    MAP_W = mapW; MAP_H = mapH; CFG = cfg || {}; players = pl; playerOrder = po;
-    tiles = t.map(([terrain, ownerIdx, troops, building]) => ({ terrain, ownerIdx, troops, building }));
-    marches = []; stats = {}; startTime = Date.now();
-    initCanvas(); showScreen('game');
-    document.getElementById('economy-panel').style.display = '';
-    if (CFG.CITY_COST) document.getElementById('city-cost').textContent = CFG.CITY_COST + ' 🪙';
-    if (CFG.FORT_COST) document.getElementById('fort-cost').textContent = CFG.FORT_COST + ' 🪙';
-    addSys('⚔ The campaign begins! Select your territory and conquer the realm.');
+  socket.on('game_start',({tiles:t,players:pl,playerOrder:po,mapW,mapH,cfg,techDefs})=>{
+    MAP_W=mapW;MAP_H=mapH;CFG=cfg||{};TECHDEFS=techDefs||{};
+    players=pl;playerOrder=po;
+    tiles=t.map(([terrain,ownerIdx,troops,building,pop])=>({terrain,ownerIdx,troops,building:building||null,pop:pop||0}));
+    marches=[];stats={};tradeRoutes=[];startTime=Date.now();
+    initCanvas();showScreen('game');
+    document.getElementById('ecpanel').style.display='';
+    document.getElementById('allypanel').style.display='';
+    buildTechUI();
+    addSys('⚔ The campaign begins! Research technologies and build your empire.');
   });
-
-  socket.on('tick', ({ changed, marches: m, stats: s }) => {
-    for (const [i, oi, tr, bld] of changed) {
-      tiles[i].ownerIdx = oi; tiles[i].troops = tr; tiles[i].building = bld || null;
+  socket.on('tick',({changed,marches:m,stats:s,trade:tr})=>{
+    for(const[i,oi,tr2,bld,pop]of changed){
+      tiles[i].ownerIdx=oi;tiles[i].troops=tr2;tiles[i].building=bld||null;tiles[i].pop=pop||0;
     }
-    marches = m; stats = s; updateTopBar(); updateEconomy();
+    marches=m;stats=s;
+    tradeRoutes=tr||[];
+    const ms=stats[myId];
+    if(ms){myTechs=ms.techs||[];myAllies=ms.allies||[];}
+    updateTop();updateEco();updateAllyPanel();updateTechUI();
   });
-
-  socket.on('eliminated', ({ playerId, name }) => {
-    if (players[playerId]) players[playerId].alive = false;
-    const isMe = playerId === myId;
-    toast(isMe ? '💀 Your realm has fallen!' : `⚔ ${name} has been defeated`);
-    addSys(isMe ? '💀 Your realm has fallen!' : `⚔ ${name} has been vanquished`);
-    if (isMe) { selected = null; buildMode = null; }
+  socket.on('eliminated',({playerId,name})=>{
+    if(players[playerId])players[playerId].alive=false;
+    const me=playerId===myId;
+    toast(me?'💀 Your realm has fallen!':'⚔ '+name+' has been defeated');
+    addSys(me?'💀 Your realm has fallen!':'⚔ '+name+' has been vanquished');
+    if(me){selected=null;document.getElementById('selind').style.display='none';}
   });
-
-  socket.on('game_over', ({ winner }) => {
-    const isMe = winner.id === myId;
-    showOverlay(
-      isMe ? '👑' : '💀',
-      isMe ? 'Victory!' : 'Defeated',
-      winner.name,
-      isMe ? 'You have unified the realm under your banner!' : `${winner.name} has conquered all.`
-    );
+  socket.on('game_over',({winner})=>{
+    const me=winner.id===myId;
+    showOverlay(me?'👑':'💀',me?'Victory!':'Defeated',winner.name,me?'You have unified the realm!':winner.name+' has conquered all.');
   });
-
-  socket.on('chat', ({ name, color, text }) => addChat(name, color, text));
-  socket.on('err', ({ msg }) => { document.getElementById('lobby-error').textContent = msg; toast('⚠ ' + msg); });
+  socket.on('chat',({name,color,text})=>addChat(name,color,text));
+  socket.on('err',({msg})=>{document.getElementById('lerr').textContent=msg;toast('⚠ '+msg);});
+  socket.on('tech_unlocked',({techId,playerGold})=>{
+    myTechs.push(techId);
+    document.getElementById('goldval').textContent=playerGold;
+    updateTechUI();
+    const t=TECHDEFS[techId];
+    toast('📜 Researched: '+(t?t.name:techId));
+  });
+  socket.on('event',({id,title,icon,flavour,choices})=>{
+    showEvent(id,title,icon,flavour,choices);
+  });
+  socket.on('event_resolved',()=>{hideEvent();});
+  socket.on('alliance_offer',({fromId,fromName,fromColor})=>{
+    allyOfferFrom=fromId;
+    document.getElementById('alloffertxt').textContent=fromName+' proposes an alliance. Accept?';
+    document.getElementById('alloffer').classList.add('show');
+  });
+  socket.on('alliance_formed',({withId,withName,withColor})=>{
+    if(!myAllies.includes(withId))myAllies.push(withId);
+    toast('🤝 Allied with '+withName+'!');
+    updateAllyPanel();
+  });
+  socket.on('alliance_broken',({withId})=>{
+    myAllies=myAllies.filter(id=>id!==withId);
+    updateAllyPanel();
+    toast('⚔ Alliance broken');
+  });
+  socket.on('alliance_declined',({byName})=>toast(byName+' declined your alliance offer.'));
 }
 
-function joinRoom() {
-  const name = document.getElementById('inp-name').value.trim();
-  const room = document.getElementById('inp-room').value.trim().toUpperCase();
-  if (!room) { document.getElementById('lobby-error').textContent = 'Enter a room code'; return; }
-  myRoom = room;
-  document.getElementById('room-code-display').textContent = room;
-  initSocket();
-  socket.emit('join_room', { roomId: room, name });
+function joinRoom(){
+  const name=document.getElementById('iname').value.trim();
+  const room=document.getElementById('iroom').value.trim().toUpperCase();
+  if(!room){document.getElementById('lerr').textContent='Enter a room code';return;}
+  document.getElementById('wcode').textContent=room;
+  initSocket();socket.emit('join_room',{roomId:room,name});
 }
-function startGame() { socket.emit('start_game'); }
-
-function updateWaiting() {
-  const list = document.getElementById('waiting-players');
-  list.innerHTML = '';
-  for (const pid of playerOrder) {
-    const p = players[pid]; if (!p) continue;
-    const li = document.createElement('li');
-    const initials = p.name.slice(0, 2).toUpperCase();
-    li.innerHTML = `<div class="player-crest" style="background:${p.color}">${initials}</div>
-      <span>${esc(p.name)}</span>
-      ${pid === myId ? '<span class="you-badge">YOU</span>' : ''}`;
+function startGame(){socket.emit('start_game');}
+function updateWait(){
+  const list=document.getElementById('wlist');list.innerHTML='';
+  for(const pid of playerOrder){
+    const p=players[pid];if(!p)continue;
+    const li=document.createElement('li');
+    li.innerHTML=`<div class="pcrest" style="background:${p.color}">${p.name.slice(0,2).toUpperCase()}</div><span>${esc(p.name)}</span>${pid===myId?'<span class="youbadge">YOU</span>':''}`;
     list.appendChild(li);
   }
-  const sb = document.getElementById('start-btn'), hint = document.getElementById('waiting-hint');
-  sb.style.display = isHost ? '' : 'none';
-  hint.style.display = isHost ? 'none' : '';
+  document.getElementById('startbtn').style.display=isHost?'':'none';
+  document.getElementById('whint').style.display=isHost?'none':'';
 }
 
 // ── CANVAS ─────────────────────────────────────────────────────────────────
-let canvas, ctx;
-
-function initCanvas() {
-  canvas = document.getElementById('gameCanvas');
-  ctx = canvas.getContext('2d');
-  canvas.width = MAP_W * TS; canvas.height = MAP_H * TS;
-  const wrap = document.getElementById('canvas-wrap');
-  panX = Math.max(0, (wrap.clientWidth - canvas.width) / 2);
-  panY = Math.max(0, (wrap.clientHeight - canvas.height) / 2);
+let canvas,ctx;
+function initCanvas(){
+  canvas=document.getElementById('gc');ctx=canvas.getContext('2d');
+  canvas.width=MAP_W*TS;canvas.height=MAP_H*TS;
+  const wrap=document.getElementById('cwrap');
+  panX=Math.max(0,(wrap.clientWidth-canvas.width)/2);
+  panY=Math.max(0,(wrap.clientHeight-canvas.height)/2);
   applyT();
-
-  canvas.addEventListener('click', onClic);
-  canvas.addEventListener('contextmenu', onRightClick);
-  canvas.addEventListener('mousemove', onMove);
-  canvas.addEventListener('mouseleave', () => { hovered = null; hideTip(); });
-
-  const wrap2 = document.getElementById('canvas-wrap');
-  wrap2.addEventListener('wheel', onWheel, { passive: false });
-  wrap2.addEventListener('mousedown', e => {
-    if (e.button === 1) { isPanning = true; panSX = e.clientX - panX; panSY = e.clientY - panY; e.preventDefault(); }
+  canvas.addEventListener('click',onClic);
+  canvas.addEventListener('contextmenu',onRclick);
+  canvas.addEventListener('mousemove',onMove);
+  canvas.addEventListener('mouseleave',()=>{hovered=null;hideTip();});
+  const wrap2=document.getElementById('cwrap');
+  wrap2.addEventListener('wheel',onWheel,{passive:false});
+  wrap2.addEventListener('mousedown',e=>{if(e.button===1){isPanning=true;panSX=e.clientX-panX;panSY=e.clientY-panY;e.preventDefault();}});
+  window.addEventListener('mousemove',e=>{if(!isPanning)return;panX=e.clientX-panSX;panY=e.clientY-panSY;applyT();});
+  window.addEventListener('mouseup',e=>{if(e.button===1)isPanning=false;});
+  window.addEventListener('click',e=>{
+    if(!document.getElementById('ctxmenu').contains(e.target))hideCtx();
+    if(!document.getElementById('techpanel').contains(e.target)&&e.target.className!=='tbtn'){}
   });
-  window.addEventListener('mousemove', e => { if (!isPanning) return; panX = e.clientX - panSX; panY = e.clientY - panSY; applyT(); });
-  window.addEventListener('mouseup', e => { if (e.button === 1) isPanning = false; });
-  window.addEventListener('click', e => { if (!document.getElementById('ctx-menu').contains(e.target)) hideCtx(); });
-
-  document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+  document.getElementById('chatinp').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
   requestAnimationFrame(render);
 }
-
-function applyT() {
-  canvas.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
-  canvas.style.transformOrigin = '0 0';
-}
-
-function onWheel(e) {
+function applyT(){canvas.style.transform=`translate(${panX}px,${panY}px) scale(${scale})`;canvas.style.transformOrigin='0 0';}
+function onWheel(e){
   e.preventDefault();
-  const f = e.deltaY < 0 ? 1.12 : 0.89;
-  const rect = canvas.getBoundingClientRect();
-  const mx = (e.clientX - rect.left) / scale, my = (e.clientY - rect.top) / scale;
-  const ns = Math.min(5, Math.max(0.3, scale * f));
-  panX -= mx * (ns - scale); panY -= my * (ns - scale); scale = ns; applyT();
+  const f=e.deltaY<0?1.12:.89;
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)/scale,my=(e.clientY-rect.top)/scale;
+  const ns=Math.min(5,Math.max(0.25,scale*f));
+  panX-=mx*(ns-scale);panY-=my*(ns-scale);scale=ns;applyT();
 }
-
-function toTile(e) {
-  const rect = canvas.getBoundingClientRect();
-  const tx = Math.floor((e.clientX - rect.left) / (rect.width / canvas.width) / TS);
-  const ty = Math.floor((e.clientY - rect.top) / (rect.height / canvas.height) / TS);
-  if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return null;
-  return { x: tx, y: ty };
+function toTile(e){
+  const rect=canvas.getBoundingClientRect();
+  const tx=Math.floor((e.clientX-rect.left)/(rect.width/canvas.width)/TS);
+  const ty=Math.floor((e.clientY-rect.top)/(rect.height/canvas.height)/TS);
+  if(tx<0||tx>=MAP_W||ty<0||ty>=MAP_H)return null;
+  return{x:tx,y:ty};
 }
+function myIdx(){return playerOrder.indexOf(myId);}
 
-function myIdx() { return playerOrder.indexOf(myId); }
-
-function onClic(e) {
+function onClic(e){
   hideCtx();
-  const t = toTile(e); if (!t) return;
-  const tile = tiles[t.y * MAP_W + t.x]; if (!tile) return;
-
-  // Build mode
-  if (buildMode && tile.ownerIdx === myIdx() && myId) {
-    socket.emit('build', { x: t.x, y: t.y, type: buildMode });
-    buildMode = null;
-    document.getElementById('selected-indicator').style.display = 'none';
-    return;
-  }
-
-  if (tile.ownerIdx === myIdx() && myId) {
-    selected = t;
-    document.getElementById('selected-indicator').style.display = 'block';
-  } else if (selected && myId) {
-    socket.emit('march', { fromX: selected.x, fromY: selected.y, toX: t.x, toY: t.y });
-    selected = null;
-    buildMode = null;
-    document.getElementById('selected-indicator').style.display = 'none';
+  const t=toTile(e);if(!t)return;
+  const tile=tiles[t.y*MAP_W+t.x];if(!tile)return;
+  const mi=myIdx();
+  if(tile.ownerIdx===mi&&myId){
+    selected=t;document.getElementById('selind').style.display='block';
+  }else if(selected&&myId){
+    socket.emit('march',{fromX:selected.x,fromY:selected.y,toX:t.x,toY:t.y});
+    selected=null;document.getElementById('selind').style.display='none';
   }
 }
-
-function onRightClick(e) {
-  e.preventDefault();
-  selected = null; buildMode = null;
-  document.getElementById('selected-indicator').style.display = 'none';
-  const t = toTile(e);
-  if (!t) return;
-  const tile = tiles[t.y * MAP_W + t.x];
-  if (!tile || tile.ownerIdx !== myIdx() || tile.terrain === 0) return;
-  if (tile.building) return; // already has building
-  ctxTile = t;
-  const menu = document.getElementById('ctx-menu');
-  menu.style.display = 'block';
-  menu.style.left = e.clientX + 'px';
-  menu.style.top = e.clientY + 'px';
-  // Disable items if can't afford
-  const gold = (stats[myId] || {}).gold || 0;
-  document.getElementById('ctx-city').className = 'ctx-item' + (gold < (CFG.CITY_COST||200) ? ' disabled' : '');
-  document.getElementById('ctx-fort').className = 'ctx-item' + (gold < (CFG.FORT_COST||80) ? ' disabled' : '');
-}
-
-function ctxBuild(type) {
-  if (!ctxTile) return;
-  socket.emit('build', { x: ctxTile.x, y: ctxTile.y, type });
-  hideCtx();
-}
-
-function hideCtx() { document.getElementById('ctx-menu').style.display = 'none'; ctxTile = null; }
-
-function setBuildMode(type) {
-  buildMode = type; selected = null;
-  const ind = document.getElementById('selected-indicator');
-  ind.textContent = `🏗 Click your land tile to build ${type === 'city' ? '🏰 City' : '🛡 Fort'}`;
-  ind.style.display = 'block';
-}
-
-function onMove(e) {
-  const t = toTile(e);
-  if (!t) { hovered = null; hideTip(); return; }
-  hovered = t;
-  const tile = tiles[t.y * MAP_W + t.x];
-  if (!tile || tile.terrain === 0) { hideTip(); return; }
-  let owner = 'Unclaimed';
-  if (tile.ownerIdx !== -1 && playerOrder[tile.ownerIdx]) {
-    const p = players[playerOrder[tile.ownerIdx]];
-    owner = p ? p.name : '?';
+function onRclick(e){
+  e.preventDefault();selected=null;document.getElementById('selind').style.display='none';
+  const t=toTile(e);if(!t)return;
+  const tile=tiles[t.y*MAP_W+t.x];if(!tile||tile.terrain===0)return;
+  const mi=myIdx();
+  ctxTile=t;
+  const menu=document.getElementById('ctxmenu');
+  const gold=(stats[myId]||{}).gold||0;
+  const isMine=tile.ownerIdx===mi;
+  const isEnemy=tile.ownerIdx!==-1&&tile.ownerIdx!==mi;
+  // Build options — only for own non-building tiles
+  document.getElementById('ctx-city').style.display=isMine&&!tile.building?'flex':'none';
+  document.getElementById('ctx-fort').style.display=isMine&&!tile.building?'flex':'none';
+  document.getElementById('ctx-city').className='ctxitem'+(gold<(CFG.CITY_COST||200)?' disabled':'');
+  document.getElementById('ctx-fort').className='ctxitem'+(gold<(CFG.FORT_COST||80)?' disabled':'');
+  // Alliance option — for enemy tiles if have dip1
+  const canAlly=isEnemy&&myTechs.includes('dip1');
+  const targetPid=playerOrder[tile.ownerIdx];
+  const alreadyAllied=targetPid&&myAllies.includes(targetPid);
+  const aitem=document.getElementById('ctx-ally');
+  aitem.style.display=canAlly&&!alreadyAllied?'flex':'none';
+  if(canAlly&&targetPid){
+    aitem.onclick=()=>{socket.emit('propose_alliance',{targetId:targetPid});hideCtx();};
   }
-  const bld = tile.building ? (tile.building === 'city' ? ' 🏰 City' : ' 🛡 Fort') : '';
-  const el = document.getElementById('tooltip');
-  el.innerHTML = `<div class="tt-title">${TERRAIN_NAMES[tile.terrain]}${bld}</div>
-    <div class="tt-row">Owner: ${esc(owner)}</div>
-    <div class="tt-row">Troops: ${tile.troops}</div>`;
-  el.style.display = 'block';
-  el.style.left = (e.clientX + 14) + 'px';
-  el.style.top = (e.clientY + 14) + 'px';
+  menu.style.display='block';
+  menu.style.left=Math.min(e.clientX,window.innerWidth-200)+'px';
+  menu.style.top=Math.min(e.clientY,window.innerHeight-160)+'px';
 }
+function ctxBuild(type){
+  if(!ctxTile)return;
+  socket.emit('build',{x:ctxTile.x,y:ctxTile.y,type});hideCtx();
+}
+function hideCtx(){document.getElementById('ctxmenu').style.display='none';ctxTile=null;}
 
-function hideTip() { document.getElementById('tooltip').style.display = 'none'; }
+function onMove(e){
+  const t=toTile(e);if(!t){hovered=null;hideTip();return;}
+  hovered=t;
+  const tile=tiles[t.y*MAP_W+t.x];if(!tile||tile.terrain===0){hideTip();return;}
+  let owner='Unclaimed';
+  if(tile.ownerIdx!==-1&&playerOrder[tile.ownerIdx]){const p=players[playerOrder[tile.ownerIdx]];owner=p?p.name:'?';}
+  const bld=tile.building?(tile.building==='city'?' · 🏰 City':' · 🛡 Fort'):'';
+  const el=document.getElementById('tip');
+  el.innerHTML=`<div class="tttitle">${TNAME[tile.terrain]}${bld}</div>
+    <div class="ttrow">Owner: ${esc(owner)}</div>
+    <div class="ttrow">Troops: ${tile.troops}</div>
+    <div class="ttrow">Population: ${Math.floor(tile.pop||0)}</div>`;
+  el.style.display='block';
+  el.style.left=Math.min(e.clientX+14,window.innerWidth-210)+'px';
+  el.style.top=(e.clientY+14)+'px';
+}
+function hideTip(){document.getElementById('tip').style.display='none';}
 
 // ── RENDER ─────────────────────────────────────────────────────────────────
-let pulseT = 0;
-
-function render() {
+let pt=0;
+function render(){
   requestAnimationFrame(render);
-  pulseT = (pulseT + 0.04) % (Math.PI * 2);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  pt=(pt+.04)%(Math.PI*2);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const mi=myIdx();
 
-  const mi = myIdx();
-
-  // ── TILES ──
-  for (let i = 0; i < tiles.length; i++) {
-    const tile = tiles[i];
-    const tx = (i % MAP_W) * TS, ty = Math.floor(i / MAP_W) * TS;
-
-    ctx.fillStyle = getTileColor(tile);
-    ctx.fillRect(tx, ty, TS, TS);
-
-    // Terrain texture details
-    if (tile.terrain === 2) { // Mountains — small triangle
-      ctx.fillStyle = 'rgba(255,255,255,0.12)';
-      ctx.beginPath();
-      ctx.moveTo(tx + TS/2, ty + 3);
-      ctx.lineTo(tx + TS - 3, ty + TS - 4);
-      ctx.lineTo(tx + 3, ty + TS - 4);
-      ctx.closePath(); ctx.fill();
-    } else if (tile.terrain === 3) { // Forest — small circle
-      ctx.fillStyle = 'rgba(0,0,0,0.15)';
-      ctx.beginPath();
-      ctx.arc(tx + TS/2, ty + TS/2, TS/3.5, 0, Math.PI*2);
-      ctx.fill();
+  // Tiles
+  for(let i=0;i<tiles.length;i++){
+    const tile=tiles[i];
+    const tx=(i%MAP_W)*TS,ty=Math.floor(i/MAP_W)*TS;
+    ctx.fillStyle=tileColor(tile);ctx.fillRect(tx,ty,TS,TS);
+    // Terrain detail
+    if(tile.terrain===2){// mountain peak
+      ctx.fillStyle='rgba(255,255,255,0.1)';
+      ctx.beginPath();ctx.moveTo(tx+TS/2,ty+3);ctx.lineTo(tx+TS-4,ty+TS-4);ctx.lineTo(tx+4,ty+TS-4);ctx.closePath();ctx.fill();
+    }else if(tile.terrain===3){// forest circle
+      ctx.fillStyle='rgba(0,0,0,0.14)';
+      ctx.beginPath();ctx.arc(tx+TS/2,ty+TS/2,TS/3.5,0,Math.PI*2);ctx.fill();
     }
-
     // Water shimmer
-    if (tile.terrain === 0) {
-      const wave = Math.sin(pulseT + i * 0.07) * 0.06 + 0.06;
-      ctx.fillStyle = `rgba(100,180,255,${wave})`;
-      ctx.fillRect(tx, ty, TS, TS);
+    if(tile.terrain===0){
+      ctx.fillStyle=`rgba(80,160,255,${.05+.05*Math.sin(pt+i*.07)})`;
+      ctx.fillRect(tx,ty,TS,TS);
     }
-  }
-
-  // ── PROVINCE BORDERS ── (drawn after tiles for clean lines)
-  ctx.lineWidth = 1.5;
-  for (let i = 0; i < tiles.length; i++) {
-    const tile = tiles[i];
-    if (tile.terrain === 0) continue;
-    const tx = i % MAP_W, ty = Math.floor(i / MAP_W);
-    const px = tx * TS, py = ty * TS;
-
-    // Check right neighbor
-    if (tx < MAP_W - 1) {
-      const right = tiles[i + 1];
-      if (right.terrain !== 0 && tile.ownerIdx !== right.ownerIdx) {
-        ctx.strokeStyle = getBorderColor(tile, right);
-        ctx.beginPath(); ctx.moveTo(px + TS, py); ctx.lineTo(px + TS, py + TS); ctx.stroke();
-      }
-    }
-    // Check bottom neighbor
-    if (ty < MAP_H - 1) {
-      const below = tiles[i + MAP_W];
-      if (below.terrain !== 0 && tile.ownerIdx !== below.ownerIdx) {
-        ctx.strokeStyle = getBorderColor(tile, below);
-        ctx.beginPath(); ctx.moveTo(px, py + TS); ctx.lineTo(px + TS, py + TS); ctx.stroke();
+    // Population glow on high-pop owned tiles
+    if(tile.ownerIdx!==-1&&tile.pop>50){
+      const p=players[playerOrder[tile.ownerIdx]];
+      if(p){ctx.fillStyle=p.color.replace('#','rgba(')+',.08)';
+        // convert hex to rgba the quick way
+        const r=parseInt(p.color.slice(1,3),16),g=parseInt(p.color.slice(3,5),16),b=parseInt(p.color.slice(5,7),16);
+        ctx.fillStyle=`rgba(${r},${g},${b},${(tile.pop-50)/1000})`;
+        ctx.fillRect(tx,ty,TS,TS);
       }
     }
   }
 
-  // ── BUILDINGS ──
-  for (let i = 0; i < tiles.length; i++) {
-    if (!tiles[i].building) continue;
-    const tx = (i % MAP_W) * TS + TS/2, ty = Math.floor(i / MAP_W) * TS + TS/2;
-    if (tiles[i].building === 'city') drawCity(tx, ty, tiles[i]);
-    else if (tiles[i].building === 'fort') drawFort(tx, ty, tiles[i]);
+  // Province borders
+  ctx.lineWidth=1.5;
+  for(let i=0;i<tiles.length;i++){
+    const tile=tiles[i];if(tile.terrain===0)continue;
+    const tx=i%MAP_W,ty=Math.floor(i/MAP_W);
+    const px=tx*TS,py=ty*TS;
+    if(tx<MAP_W-1){
+      const r=tiles[i+1];
+      if(r.terrain!==0&&tile.ownerIdx!==r.ownerIdx){
+        ctx.strokeStyle=tile.ownerIdx!==-1&&r.ownerIdx!==-1?'rgba(0,0,0,0.75)':'rgba(0,0,0,0.35)';
+        ctx.beginPath();ctx.moveTo(px+TS,py);ctx.lineTo(px+TS,py+TS);ctx.stroke();
+      }
+    }
+    if(ty<MAP_H-1){
+      const b=tiles[i+MAP_W];
+      if(b.terrain!==0&&tile.ownerIdx!==b.ownerIdx){
+        ctx.strokeStyle=tile.ownerIdx!==-1&&b.ownerIdx!==-1?'rgba(0,0,0,0.75)':'rgba(0,0,0,0.35)';
+        ctx.beginPath();ctx.moveTo(px,py+TS);ctx.lineTo(px+TS,py+TS);ctx.stroke();
+      }
+    }
   }
 
-  // ── TROOP COUNTERS on owned tiles ──
-  for (let i = 0; i < tiles.length; i++) {
-    const tile = tiles[i];
-    if (tile.ownerIdx === -1 || tile.terrain === 0 || tile.troops < 5) continue;
-    if (tile.building) continue; // skip tiles with buildings (they show separately)
-    const cx = (i % MAP_W) * TS + TS/2, cy = Math.floor(i / MAP_W) * TS + TS/2;
-    const p = players[playerOrder[tile.ownerIdx]];
-    if (p) drawUnitCounter(ctx, cx, cy, p.color, tile.troops, tile.ownerIdx === mi);
+  // Trade routes (animated glowing lines)
+  const tpulse=.5+.5*Math.sin(pt*2);
+  for(const[oi,x1,y1,x2,y2]of tradeRoutes){
+    const p=players[playerOrder[oi]];if(!p)continue;
+    const px1=x1*TS+TS/2,py1=y1*TS+TS/2,px2=x2*TS+TS/2,py2=y2*TS+TS/2;
+    ctx.save();
+    ctx.setLineDash([5,6]);
+    ctx.lineDashOffset=-pt*8;
+    ctx.strokeStyle=`rgba(212,160,23,${0.25+0.15*tpulse})`;
+    ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(px1,py1);ctx.lineTo(px2,py2);ctx.stroke();
+    ctx.setLineDash([]);ctx.restore();
   }
 
-  // ── MARCHES ──
-  for (const [id, oi, troops, mx, my] of marches) {
-    const p = players[playerOrder[oi]]; if (!p) continue;
-    const px = mx * TS + TS/2, py = my * TS + TS/2;
-    drawMarchCounter(ctx, px, py, p.color, troops);
+  // Buildings
+  for(let i=0;i<tiles.length;i++){
+    if(!tiles[i].building)continue;
+    const cx=(i%MAP_W)*TS+TS/2,cy=Math.floor(i/MAP_W)*TS+TS/2;
+    if(tiles[i].building==='city')drawCity(cx,cy,tiles[i]);
+    else drawFort(cx,cy,tiles[i]);
   }
 
-  // ── SELECTED TILE ──
-  if (selected) {
-    const sx = selected.x * TS, sy = selected.y * TS;
-    const pulse = 0.6 + 0.4 * Math.sin(pulseT * 2);
-    ctx.strokeStyle = `rgba(240,180,41,${pulse})`;
-    ctx.lineWidth = 2.5;
-    ctx.strokeRect(sx + 1, sy + 1, TS - 2, TS - 2);
-    // Glow
-    ctx.shadowColor = 'rgba(240,180,41,0.5)';
-    ctx.shadowBlur = 8;
-    ctx.strokeRect(sx + 1, sy + 1, TS - 2, TS - 2);
-    ctx.shadowBlur = 0;
-    // Dashed line to hovered
-    if (hovered && (hovered.x !== selected.x || hovered.y !== selected.y)) {
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = 'rgba(240,180,41,0.3)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(sx + TS/2, sy + TS/2);
-      ctx.lineTo(hovered.x * TS + TS/2, hovered.y * TS + TS/2);
-      ctx.stroke();
+  // Unit counters on owned tiles with notable troops (but no building)
+  for(let i=0;i<tiles.length;i++){
+    const tile=tiles[i];
+    if(tile.ownerIdx===-1||tile.terrain===0||tile.troops<5||tile.building)continue;
+    const cx=(i%MAP_W)*TS+TS/2,cy=Math.floor(i/MAP_W)*TS+TS/2;
+    const p=players[playerOrder[tile.ownerIdx]];
+    if(p)drawCounter(ctx,cx,cy,p.color,tile.troops,tile.ownerIdx===mi);
+  }
+
+  // March counters
+  for(const[id,oi,troops,mx,my]of marches){
+    const p=players[playerOrder[oi]];if(!p)continue;
+    drawMarch(ctx,mx*TS+TS/2,my*TS+TS/2,p.color,troops);
+  }
+
+  // Selected highlight
+  if(selected){
+    const sx=selected.x*TS,sy=selected.y*TS;
+    const pulse=.55+.45*Math.sin(pt*2.2);
+    ctx.shadowColor='rgba(212,160,23,0.55)';ctx.shadowBlur=10;
+    ctx.strokeStyle=`rgba(212,160,23,${pulse})`;ctx.lineWidth=2.5;
+    ctx.strokeRect(sx+1,sy+1,TS-2,TS-2);
+    ctx.shadowBlur=0;
+    if(hovered&&(hovered.x!==selected.x||hovered.y!==selected.y)){
+      ctx.setLineDash([4,4]);
+      ctx.strokeStyle='rgba(212,160,23,0.28)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(sx+TS/2,sy+TS/2);ctx.lineTo(hovered.x*TS+TS/2,hovered.y*TS+TS/2);ctx.stroke();
       ctx.setLineDash([]);
     }
   }
-
-  // ── HOVER ──
-  if (hovered) {
-    ctx.strokeStyle = 'rgba(244,232,193,0.25)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(hovered.x * TS + 0.5, hovered.y * TS + 0.5, TS - 1, TS - 1);
+  // Hover
+  if(hovered){
+    ctx.strokeStyle='rgba(240,220,160,0.22)';ctx.lineWidth=1;
+    ctx.strokeRect(hovered.x*TS+.5,hovered.y*TS+.5,TS-1,TS-1);
   }
 }
 
-function getBorderColor(a, b) {
-  // Owner-to-owner: bright border; owner-to-neutral: subtle
-  if (a.ownerIdx !== -1 && b.ownerIdx !== -1) return 'rgba(0,0,0,0.7)';
-  if (a.ownerIdx !== -1 || b.ownerIdx !== -1) return 'rgba(0,0,0,0.4)';
-  return 'rgba(0,0,0,0.15)';
-}
-
-// EU4-style unit counter
-function drawUnitCounter(ctx, cx, cy, color, troops, isMe) {
-  const w = 24, h = 16, r = 2;
-  const x = cx - w/2, y = cy - h/2;
-  // Shadow
-  ctx.fillStyle = 'rgba(0,0,0,0.6)';
-  roundRect(ctx, x+2, y+2, w, h, r); ctx.fill();
-  // Body
-  ctx.fillStyle = color;
-  roundRect(ctx, x, y, w, h, r); ctx.fill();
-  // Top sheen
-  const grad = ctx.createLinearGradient(x, y, x, y+h/2);
-  grad.addColorStop(0, 'rgba(255,255,255,0.3)');
-  grad.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = grad;
-  roundRect(ctx, x, y, w, h/2, r); ctx.fill();
-  // Border
-  ctx.strokeStyle = isMe ? 'rgba(240,180,41,0.8)' : 'rgba(0,0,0,0.8)';
-  ctx.lineWidth = isMe ? 1.5 : 1;
-  roundRect(ctx, x, y, w, h, r); ctx.stroke();
-  // Sword icon (simplified)
-  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(cx-9, cy); ctx.lineTo(cx-5, cy); ctx.stroke();
-  // Troop count
-  ctx.fillStyle = '#fff';
-  ctx.font = `bold ${troops >= 100 ? 7 : 8}px monospace`;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(fmt(troops), cx+2, cy+0.5);
-}
-
-// Moving march counter (animated dot with counter)
-function drawMarchCounter(ctx, cx, cy, color, troops) {
-  const r = 7;
-  ctx.fillStyle = 'rgba(0,0,0,0.5)';
-  ctx.beginPath(); ctx.arc(cx+1.5, cy+1.5, r, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = color;
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-  // Sheen
-  const gr = ctx.createRadialGradient(cx-2, cy-2, 0, cx, cy, r);
-  gr.addColorStop(0, 'rgba(255,255,255,0.35)');
-  gr.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = gr;
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-  ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
-  ctx.fillStyle = '#fff'; ctx.font = 'bold 7px monospace';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(fmt(troops), cx, cy+0.5);
-}
-
-function drawCity(cx, cy, tile) {
-  const p = tile.ownerIdx !== -1 ? players[playerOrder[tile.ownerIdx]] : null;
-  const color = p ? p.color : '#888';
-  const s = TS * 0.72;
-  // Shadow
-  ctx.fillStyle = 'rgba(0,0,0,0.5)';
-  ctx.fillRect(cx - s/2 + 1.5, cy - s*.3 + 1.5, s, s*.65);
-  // Base tower
-  ctx.fillStyle = color;
-  ctx.fillRect(cx - s/2, cy - s*.3, s, s*.65);
-  // Battlements
-  const mw = s/5, mh = s/5;
-  for (let i = 0; i < 4; i++) {
-    ctx.fillRect(cx - s/2 + i*(mw+s/15), cy - s*.3 - mh, mw, mh);
-  }
-  // Top sheen
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  ctx.fillRect(cx - s/2, cy - s*.3, s, mh);
-  // Gate arch
-  ctx.fillStyle = 'rgba(0,0,0,0.7)';
-  ctx.beginPath();
-  ctx.arc(cx, cy + s*.1, s*.12, Math.PI, 0);
-  ctx.rect(cx - s*.12, cy - s*.05, s*.24, s*.2);
-  ctx.fill();
-  // Window light
-  ctx.fillStyle = 'rgba(255,220,80,0.7)';
-  ctx.fillRect(cx - s*.08, cy - s*.15, s*.16, s*.1);
-  // Border
-  ctx.strokeStyle = 'rgba(0,0,0,0.6)'; ctx.lineWidth = 1;
-  ctx.strokeRect(cx - s/2, cy - s*.3, s, s*.65);
-  // Flag
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(cx + s/2 - 3, cy - s*.3 - mh - 8, 1, 10);
-  ctx.fillStyle = color;
-  ctx.fillRect(cx + s/2 - 2, cy - s*.3 - mh - 8, 7, 6);
-}
-
-function drawFort(cx, cy, tile) {
-  const p = tile.ownerIdx !== -1 ? players[playerOrder[tile.ownerIdx]] : null;
-  const color = p ? blendHex(p.color,'#555',0.5) : '#666';
-  const s = TS * 0.6;
-  // Diamond shape
-  ctx.fillStyle = 'rgba(0,0,0,0.5)';
-  ctx.beginPath();
-  ctx.moveTo(cx+1.5, cy-s/2+1.5); ctx.lineTo(cx+s/2+1.5, cy+1.5);
-  ctx.lineTo(cx+1.5, cy+s/2+1.5); ctx.lineTo(cx-s/2+1.5, cy+1.5);
-  ctx.closePath(); ctx.fill();
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy-s/2); ctx.lineTo(cx+s/2, cy);
-  ctx.lineTo(cx, cy+s/2); ctx.lineTo(cx-s/2, cy);
-  ctx.closePath(); ctx.fill();
-  // Sheen
-  ctx.fillStyle = 'rgba(255,255,255,0.15)';
-  ctx.beginPath();
-  ctx.moveTo(cx, cy-s/2); ctx.lineTo(cx+s/2, cy); ctx.lineTo(cx, cy);
-  ctx.closePath(); ctx.fill();
-  ctx.strokeStyle = 'rgba(0,0,0,0.6)'; ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy-s/2); ctx.lineTo(cx+s/2, cy);
-  ctx.lineTo(cx, cy+s/2); ctx.lineTo(cx-s/2, cy);
-  ctx.closePath(); ctx.stroke();
-  // Shield icon
-  ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  ctx.font = `${TS*0.35}px serif`;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText('🛡', cx, cy);
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x+r, y);
-  ctx.lineTo(x+w-r, y); ctx.arcTo(x+w, y, x+w, y+r, r);
-  ctx.lineTo(x+w, y+h-r); ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
-  ctx.lineTo(x+r, y+h); ctx.arcTo(x, y+h, x, y+h-r, r);
-  ctx.lineTo(x, y+r); ctx.arcTo(x, y, x+r, y, r);
+// ── DRAWING HELPERS ────────────────────────────────────────────────────────
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
   ctx.closePath();
 }
 
+function drawCounter(ctx,cx,cy,color,troops,isMe){
+  const w=26,h=17,r=2,x=cx-w/2,y=cy-h/2;
+  ctx.fillStyle='rgba(0,0,0,0.6)';rrect(ctx,x+2,y+2,w,h,r);ctx.fill();
+  ctx.fillStyle=color;rrect(ctx,x,y,w,h,r);ctx.fill();
+  const gr=ctx.createLinearGradient(x,y,x,y+h/2);
+  gr.addColorStop(0,'rgba(255,255,255,0.28)');gr.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=gr;rrect(ctx,x,y,w,h/2,r);ctx.fill();
+  ctx.strokeStyle=isMe?'rgba(240,192,64,0.85)':'rgba(0,0,0,0.8)';
+  ctx.lineWidth=isMe?1.5:1;rrect(ctx,x,y,w,h,r);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='bold 7px monospace';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(fmt(troops),cx,cy+.5);
+}
+
+function drawMarch(ctx,cx,cy,color,troops){
+  const r=8;
+  ctx.fillStyle='rgba(0,0,0,0.55)';
+  ctx.beginPath();ctx.arc(cx+1.5,cy+1.5,r,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=color;
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+  const gr=ctx.createRadialGradient(cx-2,cy-2,0,cx,cy,r);
+  gr.addColorStop(0,'rgba(255,255,255,0.32)');gr.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=gr;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,0.7)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='bold 7px monospace';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(fmt(troops),cx,cy+.5);
+}
+
+function drawCity(cx,cy,tile){
+  const p=tile.ownerIdx!==-1?players[playerOrder[tile.ownerIdx]]:null;
+  const color=p?p.color:'#887060';const s=TS*.7;
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(cx-s/2+2,cy-s*.32+2,s,s*.68);
+  // Tower body
+  ctx.fillStyle=color;ctx.fillRect(cx-s/2,cy-s*.3,s,s*.65);
+  // Battlements
+  const mw=s/4.5,mh=s*.22;
+  for(let i=0;i<4;i++)ctx.fillRect(cx-s/2+i*(mw+s/15),cy-s*.3-mh,mw,mh);
+  // Sheen
+  ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(cx-s/2,cy-s*.3,s,mh);
+  // Gate
+  ctx.fillStyle='rgba(0,0,0,0.72)';
+  ctx.beginPath();ctx.arc(cx,cy+s*.1,s*.11,Math.PI,0);
+  ctx.rect(cx-s*.11,cy-s*.06,s*.22,s*.22);ctx.fill();
+  // Window
+  ctx.fillStyle='rgba(255,220,80,0.72)';ctx.fillRect(cx-s*.07,cy-s*.18,s*.14,s*.1);
+  // Border
+  ctx.strokeStyle='rgba(0,0,0,0.65)';ctx.lineWidth=1;ctx.strokeRect(cx-s/2,cy-s*.3,s,s*.65);
+  // Flag pole + flag
+  ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cx+s/2-2,cy-s*.3-mh);ctx.lineTo(cx+s/2-2,cy-s*.3-mh-9);ctx.stroke();
+  ctx.fillStyle=color;ctx.fillRect(cx+s/2-1,cy-s*.3-mh-9,7,5);
+}
+
+function drawFort(cx,cy,tile){
+  const p=tile.ownerIdx!==-1?players[playerOrder[tile.ownerIdx]]:null;
+  const color=p?blendHex(p.color,'#505050',.45):'#606060';
+  const s=TS*.62;
+  ctx.fillStyle='rgba(0,0,0,0.55)';
+  ctx.beginPath();ctx.moveTo(cx+2,cy-s/2+2);ctx.lineTo(cx+s/2+2,cy+2);ctx.lineTo(cx+2,cy+s/2+2);ctx.lineTo(cx-s/2+2,cy+2);ctx.closePath();ctx.fill();
+  ctx.fillStyle=color;
+  ctx.beginPath();ctx.moveTo(cx,cy-s/2);ctx.lineTo(cx+s/2,cy);ctx.lineTo(cx,cy+s/2);ctx.lineTo(cx-s/2,cy);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.15)';
+  ctx.beginPath();ctx.moveTo(cx,cy-s/2);ctx.lineTo(cx+s/2,cy);ctx.lineTo(cx,cy);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,0.65)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cx,cy-s/2);ctx.lineTo(cx+s/2,cy);ctx.lineTo(cx,cy+s/2);ctx.lineTo(cx-s/2,cy);ctx.closePath();ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font=(TS*.32)+'px serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🛡',cx,cy);
+}
+
 // ── UI UPDATES ─────────────────────────────────────────────────────────────
-function updateTopBar() {
-  const container = document.getElementById('player-stats');
-  container.innerHTML = '';
-  const mi = myIdx();
-  for (const pid of playerOrder) {
-    const p = players[pid]; if (!p) continue;
-    const s = stats[pid] || { tiles: 0, troops: 0 };
-    const chip = document.createElement('div');
-    chip.className = 'stat-chip' + (pid === myId ? ' me' : '') + (!p.alive ? ' dead' : '');
-    chip.innerHTML = `<div class="chip-color" style="background:${p.color}"></div>
+function updateTop(){
+  const c=document.getElementById('pstats');c.innerHTML='';
+  for(const pid of playerOrder){
+    const p=players[pid];if(!p)continue;
+    const s=stats[pid]||{tiles:0,troops:0};
+    const isAlly=myAllies.includes(pid);
+    const ch=document.createElement('div');
+    ch.className='chip'+(pid===myId?' me':'')+(!p.alive?' dead':'');
+    ch.innerHTML=`<div class="ccolor" style="background:${p.color}"></div>
       <span>${esc(p.name)}</span>
-      <span style="color:var(--text-dim);margin-left:2px">${fmt(s.tiles)}▪${fmt(s.troops)}⚔</span>`;
-    container.appendChild(chip);
+      ${isAlly?'<span class="cally">🤝</span>':''}
+      <span style="color:var(--dim);margin-left:2px">${fmt(s.tiles)}▪${fmt(s.troops)}⚔</span>`;
+    // Spy info (dip2)
+    if(myTechs.includes('dip2')&&pid!==myId&&s.gold!==undefined){
+      ch.title=`Treasury: ${s.gold}g | Techs: ${(s.techs||[]).length}`;
+    }
+    c.appendChild(ch);
   }
-  if (startTime) {
-    const el = Math.floor((Date.now() - startTime) / 1000);
-    const m = Math.floor(el/60).toString().padStart(2,'0');
-    const ss = (el%60).toString().padStart(2,'0');
-    document.getElementById('timer').textContent = m + ':' + ss;
+  if(startTime){
+    const el=Math.floor((Date.now()-startTime)/1e3);
+    document.getElementById('timer').textContent=Math.floor(el/60).toString().padStart(2,'0')+':'+
+      (el%60).toString().padStart(2,'0');
   }
 }
 
-function updateEconomy() {
-  const s = stats[myId]; if (!s) return;
-  document.getElementById('my-tiles').textContent = fmt(s.tiles);
-  document.getElementById('my-troops').textContent = fmt(s.troops);
-  document.getElementById('my-cities').textContent = s.cities || 0;
-  document.getElementById('my-gold').textContent = fmt(s.gold) + ' 🪙';
-  document.getElementById('gold-val').textContent = fmt(s.gold);
+function updateEco(){
+  const s=stats[myId];if(!s)return;
+  document.getElementById('etiles').textContent=fmt(s.tiles);
+  document.getElementById('epop').textContent=fmt(s.pop||0);
+  document.getElementById('etroops').textContent=fmt(s.troops);
+  document.getElementById('ecities').textContent=s.cities||0;
+  document.getElementById('egold').textContent=fmt(s.gold)+' 🪙';
+  document.getElementById('goldval').textContent=fmt(s.gold);
+  // Estimate income (rough)
+  const income=((s.tiles||0)*0.03+(s.cities||0)*0.35+(s.pop||0)*0.0008).toFixed(1);
+  document.getElementById('eincome').textContent='~'+income+' 🪙';
+}
+
+function updateAllyPanel(){
+  const list=document.getElementById('allylist');
+  if(!myAllies.length){list.innerHTML='<span style="color:var(--dim);font-size:12px;font-style:italic;">No allies yet</span>';return;}
+  list.innerHTML='';
+  for(const aid of myAllies){
+    const p=players[aid];if(!p)continue;
+    const row=document.createElement('div');row.className='allyrow';
+    row.innerHTML=`<div class="aldot" style="background:${p.color}"></div>
+      <span style="font-size:12px">${esc(p.name)}</span>
+      <span class="albrkbtn" onclick="breakAlly('${aid}')">Break</span>`;
+    list.appendChild(row);
+  }
+}
+function breakAlly(id){socket.emit('break_alliance',{targetId:id});}
+
+// ── TECH TREE UI ───────────────────────────────────────────────────────────
+function buildTechUI(){
+  for(const branch of['military','economic','diplomatic']){
+    const container=document.getElementById('techs-'+branch);
+    container.innerHTML='';
+    const techs=Object.values(TECHDEFS).filter(t=>t.branch===branch).sort((a,b)=>a.tier-b.tier);
+    for(const tech of techs){
+      const card=document.createElement('div');
+      card.id='tcard-'+tech.id;
+      card.innerHTML=`<div class="tstat"></div>
+        <div class="tico">${tech.icon}</div>
+        <div class="tname">${tech.name}</div>
+        <div class="tdesc">${tech.desc}</div>
+        <div class="tcost">${tech.cost} 🪙</div>`;
+      card.addEventListener('click',()=>research(tech.id));
+      container.appendChild(card);
+    }
+  }
+  updateTechUI();
+}
+
+function updateTechUI(){
+  const gold=(stats[myId]||{}).gold||0;
+  for(const[id,tech]of Object.entries(TECHDEFS)){
+    const card=document.getElementById('tcard-'+id);if(!card)continue;
+    const researched=myTechs.includes(id);
+    const prereqsMet=tech.requires.every(r=>myTechs.includes(r));
+    const canAfford=gold>=tech.cost;
+    let cls='tcard';
+    if(researched)cls+=' researched';
+    else if(!prereqsMet)cls+=' locked';
+    else if(prereqsMet)cls+=' available';
+    card.className=cls;
+  }
+}
+
+function research(techId){
+  const tech=TECHDEFS[techId];if(!tech)return;
+  if(myTechs.includes(techId))return;
+  const prereqsMet=tech.requires.every(r=>myTechs.includes(r));
+  if(!prereqsMet){toast('⚠ Research prerequisites first');return;}
+  const gold=(stats[myId]||{}).gold||0;
+  if(gold<tech.cost){toast(`⚠ Need ${tech.cost} gold to research`);return;}
+  socket.emit('research',{techId});
+}
+
+function toggleTech(){
+  const panel=document.getElementById('techpanel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open'))updateTechUI();
+}
+
+// ── EVENTS ─────────────────────────────────────────────────────────────────
+let currentEventId=null;
+function showEvent(id,title,icon,flavour,choices){
+  currentEventId=id;
+  document.getElementById('evtico').textContent=icon;
+  document.getElementById('evttitle').textContent=title;
+  document.getElementById('evtflavour').textContent=flavour;
+  const cc=document.getElementById('evtchoices');cc.innerHTML='';
+  for(const ch of choices){
+    const btn=document.createElement('button');btn.className='evtbtn';
+    btn.innerHTML=`${ch.label}<span class="evteff">${ch.effect}</span>`;
+    btn.onclick=()=>chooseEvent(ch.id);
+    cc.appendChild(btn);
+  }
+  document.getElementById('evtmodal').classList.add('show');
+}
+function chooseEvent(choiceId){
+  if(!currentEventId)return;
+  socket.emit('event_choice',{eventId:currentEventId,choiceId});
+  hideEvent();
+}
+function hideEvent(){
+  document.getElementById('evtmodal').classList.remove('show');
+  currentEventId=null;
+}
+
+// ── ALLIANCES ──────────────────────────────────────────────────────────────
+function respondAlly(accept){
+  if(!allyOfferFrom)return;
+  socket.emit('respond_alliance',{fromId:allyOfferFrom,accept});
+  allyOfferFrom=null;
+  document.getElementById('alloffer').classList.remove('show');
 }
 
 // ── CHAT ───────────────────────────────────────────────────────────────────
-function sendChat() {
-  const inp = document.getElementById('chat-input');
-  const msg = inp.value.trim(); if (!msg || !socket) return;
-  socket.emit('chat', { message: msg }); inp.value = '';
+function sendChat(){
+  const inp=document.getElementById('chatinp');
+  const msg=inp.value.trim();if(!msg||!socket)return;
+  socket.emit('chat',{message:msg});inp.value='';
 }
-function addChat(name, color, text) {
-  const log = document.getElementById('chat-log');
-  const d = document.createElement('div'); d.className = 'chat-msg';
-  d.innerHTML = `<span class="chat-name" style="color:${color}">${esc(name)}: </span><span class="chat-text">${esc(text)}</span>`;
-  log.appendChild(d); log.scrollTop = log.scrollHeight;
+function addChat(name,color,text){
+  const log=document.getElementById('chatlog');
+  const d=document.createElement('div');d.className='cmsg';
+  d.innerHTML=`<span class="cn" style="color:${color}">${esc(name)}: </span><span class="ct">${esc(text)}</span>`;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;
 }
-function addSys(text) {
-  const log = document.getElementById('chat-log');
-  const d = document.createElement('div'); d.className = 'chat-system';
-  d.textContent = text; log.appendChild(d); log.scrollTop = log.scrollHeight;
+function addSys(text){
+  const log=document.getElementById('chatlog');
+  const d=document.createElement('div');d.className='csys';
+  d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;
 }
 
-// ── SCREENS + OVERLAYS ─────────────────────────────────────────────────────
-function showScreen(name) {
-  ['lobby','waiting','game'].forEach(id => document.getElementById(id).style.display = id===name?(id==='lobby'||id==='waiting'?'flex':'flex'):'none');
+// ── SCREENS ────────────────────────────────────────────────────────────────
+function showScreen(name){
+  document.getElementById('lobby').style.display=name==='lobby'?'flex':'none';
+  document.getElementById('waiting').style.display=name==='waiting'?'flex':'none';
+  document.getElementById('game').style.display=name==='game'?'flex':'none';
 }
-function showOverlay(icon, title, name, sub) {
-  document.getElementById('overlay-icon').textContent = icon;
-  document.getElementById('overlay-title').textContent = title;
-  document.getElementById('overlay-name').textContent = name;
-  document.getElementById('overlay-sub').textContent = sub;
+function showOverlay(ico,title,name,sub){
+  document.getElementById('oico').textContent=ico;
+  document.getElementById('otitle').textContent=title;
+  document.getElementById('oname').textContent=name;
+  document.getElementById('osub').textContent=sub;
   document.getElementById('overlay').classList.add('show');
 }
-function toast(msg) {
-  const area = document.getElementById('toast-area');
-  const el = document.createElement('div'); el.className = 'toast';
-  el.textContent = msg; area.appendChild(el); setTimeout(() => el.remove(), 4000);
+function toast(msg){
+  const a=document.getElementById('toasts');
+  const el=document.createElement('div');el.className='toast';el.textContent=msg;
+  a.appendChild(el);setTimeout(()=>el.remove(),4000);
 }
 
 // ── UTILS ──────────────────────────────────────────────────────────────────
-function fmt(n) {
-  n = Math.floor(n);
-  if (n >= 1e6) return (n/1e6).toFixed(1) + 'M';
-  if (n >= 1000) return (n/1000).toFixed(1) + 'k';
-  return n.toString();
-}
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function blendHex(hex, target, t) {
-  const p = h => [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-  const [r1,g1,b1]=p(hex); const [r2,g2,b2]=p(target);
-  return `rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
+function fmt(n){n=Math.floor(n||0);return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1000?(n/1000).toFixed(1)+'k':n.toString();}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function blendHex(hex,target,t){
+  const p=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const[r1,g1,b1]=p(hex);const[r2,g2,b2]=p(target);
+  return`rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────────
-document.getElementById('inp-room').addEventListener('keydown', e => { if(e.key==='Enter') joinRoom(); });
-document.getElementById('inp-name').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-room').focus(); });
-setInterval(() => { if (startTime) updateTopBar(); }, 1000);
+document.getElementById('iroom').addEventListener('keydown',e=>{if(e.key==='Enter')joinRoom();});
+document.getElementById('iname').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('iroom').focus();});
+setInterval(()=>{if(startTime)updateTop();},1000);
 </script>
 </body>
 </html>
