@@ -32,3 +32,905 @@
     display: flex;
     flex-direction: column;
   }
+
+  /* ── LOBBY ───────────────────────────────────────────── */
+  #lobby {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lobby-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 40px;
+    width: 420px;
+    max-width: 95vw;
+  }
+
+  .lobby-card h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .lobby-card .subtitle {
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-size: 13px;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .field input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .field input:focus { border-color: var(--accent); }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .85; }
+  .btn:active { opacity: .7; }
+  .btn.secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+
+  #lobby-error { color: var(--danger); font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+  /* ── WAITING ROOM ────────────────────────────────────── */
+  #waiting {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 20px;
+  }
+
+  .waiting-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 40px;
+    width: 420px;
+    max-width: 95vw;
+  }
+
+  .waiting-card h2 { font-size: 20px; margin-bottom: 6px; }
+  .waiting-card .room-code { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .waiting-card .room-code strong { color: var(--accent); font-size: 15px; letter-spacing: .08em; }
+
+  #waiting-players { list-style: none; margin-bottom: 20px; }
+  #waiting-players li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  #waiting-players li:last-child { border-bottom: none; }
+  .player-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .you-badge { font-size: 11px; color: var(--muted); background: var(--border); padding: 2px 6px; border-radius: 4px; }
+
+  /* ── GAME LAYOUT ─────────────────────────────────────── */
+  #game {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Top bar */
+  #topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    min-height: 42px;
+  }
+
+  #topbar .game-title { font-weight: 700; font-size: 15px; color: var(--accent); flex-shrink: 0; }
+
+  #player-stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  .stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .stat-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .stat-chip.dead { opacity: .35; text-decoration: line-through; }
+  .stat-chip.me { border-color: #fff3; background: rgba(255,255,255,.04); }
+
+  #timer { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+
+  /* Main area */
+  #main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Canvas wrapper */
+  #canvas-wrap {
+    flex: 1;
+    overflow: auto;
+    background: var(--water);
+    position: relative;
+    cursor: crosshair;
+  }
+
+  #gameCanvas { display: block; image-rendering: pixelated; }
+
+  /* Tooltip */
+  #tooltip {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    pointer-events: none;
+    display: none;
+    z-index: 100;
+    white-space: nowrap;
+  }
+
+  /* Sidebar */
+  #sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-section {
+    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+  }
+
+  .sidebar-section h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* Controls help */
+  #controls { font-size: 11px; color: var(--muted); line-height: 1.8; }
+  #controls kbd {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-family: monospace;
+    font-size: 10px;
+  }
+
+  /* Chat */
+  #chat-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #chat-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .chat-msg .chat-name { font-weight: 600; }
+  .chat-msg .chat-text { color: var(--muted); }
+  .chat-system { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  #chat-input-row {
+    padding: 8px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 6px;
+  }
+
+  #chat-input {
+    flex: 1;
+    padding: 6px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12px;
+    outline: none;
+  }
+
+  #chat-input:focus { border-color: var(--accent); }
+
+  #chat-send {
+    padding: 6px 10px;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  /* ── OVERLAY (win/toast) ─────────────────────────────── */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  #overlay.show { display: flex; }
+
+  .overlay-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px 48px;
+    text-align: center;
+    max-width: 380px;
+  }
+
+  .overlay-card h2 { font-size: 28px; margin-bottom: 12px; }
+  .overlay-card p  { color: var(--muted); margin-bottom: 24px; }
+  .overlay-card .win-name { font-size: 24px; font-weight: 700; margin: 8px 0 20px; }
+
+  /* Toast */
+  #toast-area {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 6px;
+    z-index: 300;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    animation: slide-up .2s ease;
+    white-space: nowrap;
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(10px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  /* Selection ring pulse */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .55; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOBBY ──────────────────────────────────────────────────── -->
+<div id="lobby">
+  <div class="lobby-card">
+    <h1>🗺 Territory Wars</h1>
+    <p class="subtitle">Real-time multiplayer territory conquest &bull; Up to 8 players</p>
+    <div class="field">
+      <label>Your name</label>
+      <input id="inp-name" type="text" maxlength="20" placeholder="Commander..." autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Room code</label>
+      <input id="inp-room" type="text" maxlength="12" placeholder="e.g. ALPHA" autocomplete="off" style="text-transform:uppercase">
+    </div>
+    <button class="btn" onclick="joinRoom()">Join / Create Room</button>
+    <div id="lobby-error"></div>
+  </div>
+</div>
+
+<!-- ── WAITING ROOM ───────────────────────────────────────────── -->
+<div id="waiting">
+  <div class="waiting-card">
+    <h2>Waiting for players</h2>
+    <p class="room-code">Room: <strong id="room-code-display"></strong> — share this code!</p>
+    <ul id="waiting-players"></ul>
+    <button class="btn" id="start-btn" onclick="startGame()" style="display:none">
+      ▶ Start Game
+    </button>
+    <p id="waiting-hint" style="color:var(--muted);font-size:12px;text-align:center;">
+      Waiting for host to start…
+    </p>
+  </div>
+</div>
+
+<!-- ── GAME ───────────────────────────────────────────────────── -->
+<div id="game">
+  <div id="topbar">
+    <span class="game-title">🗺 Territory Wars</span>
+    <div id="player-stats"></div>
+    <span id="timer"></span>
+  </div>
+  <div id="main">
+    <div id="canvas-wrap">
+      <canvas id="gameCanvas"></canvas>
+    </div>
+    <div id="sidebar">
+      <div class="sidebar-section">
+        <h3>Controls</h3>
+        <div id="controls">
+          <kbd>Click</kbd> own tile → select<br>
+          <kbd>Click</kbd> target → march<br>
+          <kbd>Right-click</kbd> cancel selection<br>
+          <kbd>Scroll</kbd> zoom in/out<br>
+          <kbd>Middle-drag</kbd> pan map
+        </div>
+      </div>
+      <div class="sidebar-section" id="my-stat-section" style="display:none">
+        <h3>My Territory</h3>
+        <div id="my-stats" style="font-size:13px;line-height:2;color:var(--muted);">
+          Tiles: <span id="my-tiles">0</span><br>
+          Troops: <span id="my-troops">0</span>
+        </div>
+      </div>
+      <div id="chat-wrap">
+        <div class="sidebar-section" style="border-bottom:none;">
+          <h3>Chat</h3>
+        </div>
+        <div id="chat-log"></div>
+        <div id="chat-input-row">
+          <input id="chat-input" type="text" maxlength="200" placeholder="Message…" autocomplete="off">
+          <button id="chat-send" onclick="sendChat()">↑</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+<div id="overlay">
+  <div class="overlay-card">
+    <h2 id="overlay-title"></h2>
+    <div class="win-name" id="overlay-name"></div>
+    <p id="overlay-sub"></p>
+    <button class="btn" onclick="location.reload()">Play Again</button>
+  </div>
+</div>
+<div id="toast-area"></div>
+
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const TS = 14;          // tile size in pixels
+let MAP_W = 80, MAP_H = 50;
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let socket, myId, myRoom;
+let isHost = false;
+
+let tiles = [];         // [{terrain, ownerIdx, troops}]
+let players = {};       // {id: {name, color, colorIdx, alive}}
+let playerOrder = [];   // ordered IDs
+let marches = [];       // [[id, ownerIdx, troops, x, y]]
+
+let selected = null;    // {x, y}
+let hovered  = null;    // {x, y}
+let stats    = {};      // {pid: {tiles, troops}}
+
+let scale = 1.0;
+let panX = 0, panY = 0;
+let isPanning = false, panStartX = 0, panStartY = 0, panOffX = 0, panOffY = 0;
+
+let startTime = null;
+
+// ── SOCKET SETUP ───────────────────────────────────────────────────────────
+function initSocket() {
+  socket = io();
+
+  socket.on('joined', ({ playerId, player, players: pl, playerOrder: po }) => {
+    myId = playerId;
+    players = pl;
+    playerOrder = po;
+    isHost = po[0] === myId;
+    updateWaitingList();
+    showScreen('waiting');
+  });
+
+  socket.on('lobby_update', ({ players: pl, playerOrder: po }) => {
+    players = pl;
+    playerOrder = po;
+    isHost = po[0] === myId;
+    updateWaitingList();
+  });
+
+  socket.on('game_start', ({ tiles: t, players: pl, playerOrder: po, mapW, mapH }) => {
+    MAP_W = mapW; MAP_H = mapH;
+    players = pl;
+    playerOrder = po;
+    tiles = t.map(([terrain, ownerIdx, troops]) => ({ terrain, ownerIdx, troops }));
+    marches = [];
+    stats = {};
+    startTime = Date.now();
+    initCanvas();
+    showScreen('game');
+    document.getElementById('my-stat-section').style.display = '';
+    addSystemMsg('⚔ Game started! Click your territory then click a target to march.');
+  });
+
+  socket.on('tick', ({ changed, marches: m, stats: s }) => {
+    for (const [i, oi, tr] of changed) {
+      tiles[i].ownerIdx = oi;
+      tiles[i].troops = tr;
+    }
+    marches = m;
+    stats = s;
+    updateTopBar();
+    updateMyStats();
+  });
+
+  socket.on('eliminated', ({ playerId, name }) => {
+    if (players[playerId]) players[playerId].alive = false;
+    const isMe = playerId === myId;
+    toast(isMe ? '💀 You were eliminated!' : `⚔ ${name} was eliminated`);
+    addSystemMsg(isMe ? '💀 You were eliminated!' : `⚔ ${name} was eliminated`);
+    if (isMe) selected = null;
+  });
+
+  socket.on('game_over', ({ winner }) => {
+    const isMe = winner.id === myId;
+    showOverlay(
+      isMe ? '🏆 Victory!' : '💀 Defeated',
+      winner.name,
+      isMe ? 'You conquered the map!' : `${winner.name} has dominated the entire map.`
+    );
+  });
+
+  socket.on('chat', ({ name, color, text }) => {
+    addChatMsg(name, color, text);
+  });
+
+  socket.on('err', ({ msg }) => {
+    document.getElementById('lobby-error').textContent = msg;
+    toast('⚠ ' + msg);
+  });
+}
+
+// ── LOBBY ACTIONS ──────────────────────────────────────────────────────────
+function joinRoom() {
+  const name = document.getElementById('inp-name').value.trim();
+  const room = document.getElementById('inp-room').value.trim().toUpperCase();
+  if (!room) { document.getElementById('lobby-error').textContent = 'Enter a room code'; return; }
+  myRoom = room;
+  document.getElementById('room-code-display').textContent = room;
+  initSocket();
+  socket.emit('join_room', { roomId: room, name });
+}
+
+function startGame() {
+  socket.emit('start_game');
+}
+
+function updateWaitingList() {
+  const list = document.getElementById('waiting-players');
+  list.innerHTML = '';
+  for (const pid of playerOrder) {
+    const p = players[pid];
+    if (!p) continue;
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="player-dot" style="background:${p.color}"></span>
+      <span>${escHtml(p.name)}</span>
+      ${pid === myId ? '<span class="you-badge">you</span>' : ''}`;
+    list.appendChild(li);
+  }
+  const startBtn = document.getElementById('start-btn');
+  const hint = document.getElementById('waiting-hint');
+  if (isHost) {
+    startBtn.style.display = '';
+    hint.style.display = 'none';
+  } else {
+    startBtn.style.display = 'none';
+    hint.style.display = '';
+  }
+}
+
+// ── CANVAS SETUP ───────────────────────────────────────────────────────────
+let canvas, ctx;
+
+function initCanvas() {
+  canvas = document.getElementById('gameCanvas');
+  ctx = canvas.getContext('2d');
+  canvas.width  = MAP_W * TS;
+  canvas.height = MAP_H * TS;
+
+  // Center map in view
+  const wrap = document.getElementById('canvas-wrap');
+  panX = Math.max(0, (wrap.clientWidth  - canvas.width)  / 2);
+  panY = Math.max(0, (wrap.clientHeight - canvas.height) / 2);
+  applyTransform();
+
+  // Mouse events
+  canvas.addEventListener('click',       onCanvasClick);
+  canvas.addEventListener('contextmenu', onRightClick);
+  canvas.addEventListener('mousemove',   onMouseMove);
+  canvas.addEventListener('mouseleave',  () => { hovered = null; tooltip(null); });
+
+  // Zoom
+  document.getElementById('canvas-wrap').addEventListener('wheel', onWheel, { passive: false });
+
+  // Pan (middle-mouse drag)
+  const wrap2 = document.getElementById('canvas-wrap');
+  wrap2.addEventListener('mousedown', e => {
+    if (e.button === 1) { isPanning = true; panStartX = e.clientX - panX; panStartY = e.clientY - panY; e.preventDefault(); }
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isPanning) return;
+    panX = e.clientX - panStartX;
+    panY = e.clientY - panStartY;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', e => { if (e.button === 1) isPanning = false; });
+
+  // Chat input enter key
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChat();
+  });
+
+  requestAnimationFrame(render);
+}
+
+function applyTransform() {
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  canvas.style.transformOrigin = '0 0';
+}
+
+function onWheel(e) {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.12 : 0.89;
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) / scale;
+  const my = (e.clientY - rect.top)  / scale;
+  const newScale = Math.min(4, Math.max(0.4, scale * factor));
+  panX -= mx * (newScale - scale);
+  panY -= my * (newScale - scale);
+  scale = newScale;
+  applyTransform();
+}
+
+function canvasToTile(e) {
+  const rect = canvas.getBoundingClientRect();
+  const cx = (e.clientX - rect.left) / (rect.width / canvas.width);
+  const cy = (e.clientY - rect.top)  / (rect.height / canvas.height);
+  const tx = Math.floor(cx / TS);
+  const ty = Math.floor(cy / TS);
+  if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return null;
+  return { x: tx, y: ty };
+}
+
+function myColorIdx() {
+  return playerOrder.indexOf(myId);
+}
+
+function onCanvasClick(e) {
+  const t = canvasToTile(e);
+  if (!t) return;
+  const tile = tiles[t.y * MAP_W + t.x];
+  if (!tile) return;
+
+  const myIdx = myColorIdx();
+  if (tile.ownerIdx === myIdx && myId) {
+    // Select own tile
+    selected = t;
+  } else if (selected && myId) {
+    // Issue march from selected → t
+    socket.emit('march', { fromX: selected.x, fromY: selected.y, toX: t.x, toY: t.y });
+    selected = null;
+  }
+}
+
+function onRightClick(e) {
+  e.preventDefault();
+  selected = null;
+}
+
+function onMouseMove(e) {
+  const t = canvasToTile(e);
+  if (!t) { hovered = null; tooltip(null); return; }
+  hovered = t;
+
+  const tile = tiles[t.y * MAP_W + t.x];
+  if (!tile || tile.terrain === 0) { tooltip(null); return; }
+
+  const terrainName = ['Water', 'Land', 'Mountain'][tile.terrain] || '?';
+  let ownerName = 'Unclaimed';
+  if (tile.ownerIdx !== -1 && playerOrder[tile.ownerIdx]) {
+    const p = players[playerOrder[tile.ownerIdx]];
+    ownerName = p ? p.name : '?';
+  }
+
+  const tip = tile.terrain === 0
+    ? terrainName
+    : `${ownerName} · ${tile.troops} troops`;
+
+  const el = document.getElementById('tooltip');
+  el.textContent = tip;
+  el.style.display = 'block';
+  el.style.left = (e.clientX + 12) + 'px';
+  el.style.top  = (e.clientY + 12) + 'px';
+}
+
+function tooltip(txt) {
+  const el = document.getElementById('tooltip');
+  el.style.display = txt ? 'block' : 'none';
+  if (txt) el.textContent = txt;
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+const WATER_COLOR   = '#0e1f2e';
+const LAND_COLOR    = '#1a2e1a';
+const MOUNTAIN_COLOR = '#2a2a2a';
+
+let pulseT = 0;
+
+function render() {
+  requestAnimationFrame(render);
+  pulseT = (pulseT + 0.05) % (Math.PI * 2);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const myIdx = myColorIdx();
+
+  for (let i = 0; i < tiles.length; i++) {
+    const tile = tiles[i];
+    const x = (i % MAP_W) * TS;
+    const y = Math.floor(i / MAP_W) * TS;
+
+    // Tile background
+    let color;
+    if (tile.terrain === 0) {
+      color = WATER_COLOR;
+    } else if (tile.ownerIdx === -1) {
+      color = tile.terrain === 2 ? MOUNTAIN_COLOR : LAND_COLOR;
+    } else {
+      const p = players[playerOrder[tile.ownerIdx]];
+      color = p ? p.color : '#888';
+      // Slightly dim enemy tiles
+      if (tile.ownerIdx !== myIdx) color = blendHex(color, '#000', 0.25);
+    }
+
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, TS - 1, TS - 1);
+
+    // Troop count on significant owned tiles
+    if (tile.ownerIdx !== -1 && tile.terrain !== 0 && tile.troops >= 8) {
+      ctx.fillStyle = 'rgba(255,255,255,0.82)';
+      ctx.font = 'bold 7px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const label = tile.troops >= 1000 ? (tile.troops / 1000).toFixed(1) + 'k' : tile.troops.toString();
+      ctx.fillText(label, x + TS / 2, y + TS / 2 + 0.5);
+    }
+  }
+
+  // Draw marches (small colored dots)
+  for (const [id, ownerIdx, troops, mx, my] of marches) {
+    const p = players[playerOrder[ownerIdx]];
+    if (!p) continue;
+    const px = mx * TS + TS / 2;
+    const py = my * TS + TS / 2;
+    ctx.fillStyle = p.color;
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.arc(px, py, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Troop count on march dot
+    if (troops >= 5) {
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 6px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const label = troops >= 1000 ? (troops / 1000).toFixed(1) + 'k' : troops.toString();
+      ctx.fillText(label, px, py);
+    }
+  }
+
+  // Draw selected tile highlight
+  if (selected) {
+    const sx = selected.x * TS;
+    const sy = selected.y * TS;
+    const pulse = 0.6 + 0.4 * Math.sin(pulseT);
+    ctx.strokeStyle = `rgba(255,255,80,${pulse})`;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(sx + 0.5, sy + 0.5, TS - 2, TS - 2);
+
+    // Draw reach indicator (faint lines to mouse if hovered target)
+    if (hovered && (hovered.x !== selected.x || hovered.y !== selected.y)) {
+      ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = 'rgba(255,255,80,0.3)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(sx + TS / 2, sy + TS / 2);
+      ctx.lineTo(hovered.x * TS + TS / 2, hovered.y * TS + TS / 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  // Draw hovered tile outline
+  if (hovered) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(hovered.x * TS + 0.5, hovered.y * TS + 0.5, TS - 2, TS - 2);
+  }
+}
+
+// ── UI UPDATES ─────────────────────────────────────────────────────────────
+function updateTopBar() {
+  const container = document.getElementById('player-stats');
+  container.innerHTML = '';
+  const myIdx = myColorIdx();
+
+  for (const pid of playerOrder) {
+    const p = players[pid];
+    if (!p) continue;
+    const s = stats[pid] || { tiles: 0, troops: 0 };
+    const chip = document.createElement('div');
+    chip.className = 'stat-chip' + (pid === myId ? ' me' : '') + (!p.alive ? ' dead' : '');
+    chip.innerHTML = `<span class="chip-dot" style="background:${p.color}"></span>
+      <span>${escHtml(p.name)}</span>
+      <span style="color:var(--muted);margin-left:2px">${fmtNum(s.tiles)}T ${fmtNum(s.troops)}⚔</span>`;
+    container.appendChild(chip);
+  }
+
+  // Timer
+  if (startTime) {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
+    const s = (elapsed % 60).toString().padStart(2, '0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  }
+}
+
+function updateMyStats() {
+  const s = stats[myId];
+  if (!s) return;
+  document.getElementById('my-tiles').textContent  = fmtNum(s.tiles);
+  document.getElementById('my-troops').textContent = fmtNum(s.troops);
+}
+
+// ── CHAT ───────────────────────────────────────────────────────────────────
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg || !socket) return;
+  socket.emit('chat', { message: msg });
+  input.value = '';
+}
+
+function addChatMsg(name, color, text) {
+  const log = document.getElementById('chat-log');
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML = `<span class="chat-name" style="color:${color}">${escHtml(name)}: </span><span class="chat-text">${escHtml(text)}</span>`;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+function addSystemMsg(text) {
+  const log = document.getElementById('chat-log');
+  const div = document.createElement('div');
+  div.className = 'chat-system';
+  div.textContent = text;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+// ── OVERLAY & TOAST ────────────────────────────────────────────────────────
+function showOverlay(title, name, sub) {
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-name').textContent  = name;
+  document.getElementById('overlay-sub').textContent   = sub;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function toast(msg) {
+  const area = document.getElementById('toast-area');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  area.appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ── SCREENS ────────────────────────────────────────────────────────────────
+function showScreen(name) {
+  document.getElementById('lobby').style.display   = name === 'lobby'   ? 'flex'   : 'none';
+  document.getElementById('waiting').style.display = name === 'waiting' ? 'flex'   : 'none';
+  document.getElementById('game').style.display    = name === 'game'    ? 'flex'   : 'none';
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function fmtNum(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000)    return (n / 1000).toFixed(1) + 'k';
+  return n.toString();
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function blendHex(hex, target, t) {
+  const parse = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+  const [r1,g1,b1] = parse(hex);
+  const [r2,g2,b2] = parse(target);
+  const r = Math.round(r1 + (r2 - r1) * t);
+  const g = Math.round(g1 + (g2 - g1) * t);
+  const b = Math.round(b1 + (b2 - b1) * t);
+  return `rgb(${r},${g},${b})`;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+// Focus room input on load, allow Enter key in lobby
+document.getElementById('inp-room').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
+document.getElementById('inp-name').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('inp-room').focus(); });
+
+// Update timer every second during game
+setInterval(() => { if (startTime) updateTopBar(); }, 1000);
+</script>
+</body>
+</html>
